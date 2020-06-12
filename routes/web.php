@@ -13,6 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('login');
+// });
+
+Auth::routes();
+Route::get('/', function(){
+    return view('auth.login1');
 });
+
+//Route unutk menghindari langsung ke DASHBOARD
+Route::get('login', function(){
+    return view('auth.login1');
+})->name('login');
+//-------Batas-----------
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('adminlogin', function () {
+    // Only authenticated users may enter...
+    return view('getting');
+
+})->middleware('auth');
+
+Route::post('adminlogin',             [
+    'as'=>'adminlogin',
+    'uses'=>'BarangController@adminlogin'
+    ]);
+

@@ -1,0 +1,75 @@
+body{
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    background-image: linear-gradient(to right,#ff5722,#ff9800);
+    margin-top: 150px !important;
+}
+
+.tulisan-kiri{
+    color: white;
+    text-align: center;
+    /* border-style: solid; */
+    padding: 30px;
+}
+.tulisan-kiri .btn-primary
+{
+    border-radius: 1.5rem;
+    border: none;
+    width: 120px;
+    background: #f8f8f8;
+    font-weight: 600;
+    color: rgb(156, 11, 11);
+    margin-top: 20px;
+    padding: 10px;
+}
+.tulisan-kiri p{
+    padding: 20px 20px 0;
+}
+
+.tulisan-kiri img
+{
+    margin-top: 60px;
+    margin-bottom: 18px;
+    width: 80px;
+    animation: mover 1s infinite alternate;
+}
+@keyframes mover 
+{
+    0%{transform: translateY(0);}
+    100%{transform: translateY(-20px);}
+}
+
+.tulisan-kanan{
+    border: none;
+    background-color:#f8f8f8;
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+    padding: 50px;
+}
+
+.tulisan-kanan h2
+{
+    text-align: center;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.register-form{
+
+    padding: 30px;
+}
+.register-form .btn-primary{
+    float: right;
+    border-radius: 1.5rem;
+    border: none;
+    width: 120px;
+    background: #ff9800;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.register-form .btn-primary:hover{
+
+    background: #ff5722;
+}
