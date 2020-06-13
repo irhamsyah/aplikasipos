@@ -12,48 +12,108 @@
 {{-- <p>Resize the browser window to see the effect. When the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other.</p> --}}
 
 <div class="container">
-  <form action="/action_page.php">
-  <div class="row">
-    <div class="col-25">
-      <label for="fname">First Name</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="lname">Last Name</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="country">Country</label>
-    </div>
-    <div class="col-75">
-      <select id="country" name="country">
-        <option value="australia">Australia</option>
-        <option value="canada">Canada</option>
-        <option value="usa">USA</option>
-      </select>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="subject">Subject</label>
-    </div>
-    <div class="col-75">
-      <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-    </div>
-  </div>
-  <div class="row">
-    <input type="submit" value="Submit">
-  </div>
-  </form>
-</div>
+
+    {!!Form::open(['url'=>'foor']) !!}
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('kodebrg','Kode Barang')!!}
+            </div>
+            <div class="col-75">
+                <div class="inputWithIcon">
+                    {!!Form::text('barang_id',null,
+                    array('required',
+                    'id'=>'kodebrg',
+                    'placeholder'=>'Kode Barang'
+                    ))!!}
+                    <i class="fa fa-qrcode fa-lg fa-fw" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('namabrg','Nama Barang')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('nama_brg',null,
+                    array('required',
+                    'id'=>'namabrg',
+                    'placeholder'=>'Nama Barang'
+                    ))!!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('hargabrg','Harga Barang')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('harga_brg',null,
+                    array('required',
+                    'id'=>'hargabrg',
+                    'placeholder'=>'Harga Barang'
+                    ))!!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('hargajual','Harga Jual')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('harga_jual',null,
+                    array('required',
+                    'id'=>'hargajual',
+                    'placeholder'=>'Harga Jual'
+                    ))!!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('kodebrg','Kode Barang')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('barang_id',null,
+                    array('required',
+                    'id'=>'kodebrg',
+                    'placeholder'=>'Kode Barang'
+                    ))!!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('kodebrg','Kode Barang')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('barang_id',null,
+                    array('required',
+                    'id'=>'kodebrg',
+                    'placeholder'=>'Kode Barang'
+                    ))!!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('kodebrg','Kode Barang')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('barang_id',null,
+                    array('required',
+                    'id'=>'kodebrg',
+                    'placeholder'=>'Kode Barang'
+                    ))!!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('kodebrg','Kode Barang')!!}
+            </div>
+            <div class="col-75">
+                {!!Form::text('barang_id',null,
+                    array('required',
+                    'id'=>'kodebrg',
+                    'placeholder'=>'Kode Barang'
+                    ))!!}
+            </div>
+        </div>
+    {!!Form::close()!!}
 
 </div>
 @endif
