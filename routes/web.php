@@ -41,3 +41,6 @@ Route::post('adminlogin',             [
     'uses'=>'BarangController@adminlogin'
     ]);
 
+Route::get('inputdata', function () {
+    return view('forminputdata');
+})->name('inputdata')->middleware('auth');
