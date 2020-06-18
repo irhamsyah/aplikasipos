@@ -24,6 +24,7 @@ class CreateBarangTable extends Migration
             $table->string('satuan',25);
             $table->bigInteger('isi_persatuan')->unsigned();
             $table->bigInteger('jumlah_brg')->unsigned();
+            $table->string('photo',150);
             $table->timestamps();
         });
     }

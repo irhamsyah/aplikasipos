@@ -8,17 +8,31 @@ class Barang extends Model
 {
     //
     protected $table ='barang';
-    protected $primaryKey='kode_brg';
+    protected $primaryKey='barang_id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['kode_brg', 'nama_brg','harga_brg','harga_jual','harga_jual_reseller','satuan','isi_persatuan','jumlah_brg'];
+    protected $fillable = ['barang_id', 'nama_brg','harga_brg','harga_jual','harga_jual_reseller','satuan','isi_persatuan','jumlah_brg','photo'];
 
     //Fungsi dibawah menyatakan bahwa  tabel barang punya relasi ke Tabel transaksi 
     //Relasi One -> To Many melaui foreignkey barang_id pada Table  transaksi
 
     public function transaksi()
     {
-        return $this->hasMany('App\Transaksi', 'barang_id', 'barang_id');
+        return $this->hasMany('App\Models\Transaksi', 'barang_id', 'barang_id');
+    }
+
+    public function satuan(){
+
+    	return $this->belongsTo('App\Models\Satuan');
+    }
+
+    public function getPhotoPathAttribute()
+    {
+        if ($this->photo !== '') {
+            return url('/img/' . $this->photo);
+        } else {
+            return 'http://placehold.it/850x618';
+        }
     }
 
 }

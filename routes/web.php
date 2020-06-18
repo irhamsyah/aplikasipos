@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('/', function () {
-//     return view('login');
+//     return view('auth.login');
 // });
 
 Auth::routes();
@@ -41,6 +41,51 @@ Route::post('adminlogin',             [
     'uses'=>'BarangController@adminlogin'
     ]);
 
-Route::get('inputdata', function () {
-    return view('forminputdata');
-})->name('inputdata')->middleware('auth');
+// Route::get('inputdata', function () {
+//     return view('forminputdata');
+// })->name('inputdata')->middleware('auth');
+
+Route::get('inputdatabarang', 
+[   
+    'middleware'=>'auth',
+    'as'=>'inputdatabarang',
+    'uses'=>'BarangController@createbarang'
+]);
+
+Route::post('simpaninputbarang', 
+[
+    'as'=>'simpaninputbarang',
+    'uses'=>'BarangController@simpaninputbarang'
+]
+);
+
+Route::get('editdatabarang', 
+[
+    'middleware'=>'auth',
+    'as'=>'editdatabarang',
+    'uses'=>'BarangController@editbarang'
+]
+);
+
+/*Proses setelah pilih data yg akan diedit atau di delete*/
+Route::get('editbarang/{id}',
+[
+    'middleware'=>'auth',
+    'as'=>'editbarang',
+    'uses'=>'BarangController@editbarangid'
+]
+);
+
+Route::post('updatedatabarang',
+[
+    'as'=>'updatedatabarang',
+    'uses'=>'BarangController@updatedatabarang'
+]);
+
+Route::delete('/hapusbarang/{barang_id?}',
+[
+    'as'=>'hapusbarang',
+    'uses'=>'BarangController@hapusbarang'
+
+]);
+

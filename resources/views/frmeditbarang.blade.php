@@ -6,7 +6,7 @@
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
   <!-- Form -->
-  <h2 style="margin-left:20px ">Input Data Barang</h2>
+  <h2 style="margin-left:20px ">Form Edit Data Barang</h2>
     <div class="container">
         @if(session()->has('message'))
         <div class="alert alert-success">
@@ -14,15 +14,16 @@
         </div>
         @endif
 
-    {!!Form::open(['route'=>'simpaninputbarang','method'=>'post','files'=>true,'enctype'=>'multipart/form-data']) !!}
+    {!!Form::open(['route'=>['updatedatabarang',$hasil],'files'=>true,'enctype'=>'multipart/form-data']) !!}
+    {{-- {!! Form::hidden('barang_id', $hasil->barang_id) !!} --}}
+
         <div class="row">
-    
             <div class="col-25">
                 {!!Form::label('kodebrg','Kode Barang',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('barang_id',old('barang_id'),
+                    {!!Form::text('barang_id',$hasil->barang_id,
                     array('required',
                     'id'=>'kodebrg',
                     'placeholder'=>'Kode Barang'
@@ -37,7 +38,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('nama_brg',old('nama_brg'),
+                    {!!Form::text('nama_brg',$hasil->nama_brg,
                     array('required',
                     'id'=>'namabrg',
                     'placeholder'=>'Nama Barang'
@@ -52,7 +53,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('harga_brg',old('harga_brg'),
+                    {!!Form::text('harga_brg',$hasil->harga_brg,
                     array('required',
                     'id'=>'hargabrg',
                     'placeholder'=>'Harga Pokok Barang'
@@ -67,7 +68,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('harga_jual',old('harga_jual'),
+                    {!!Form::text('harga_jual',$hasil->harga_jual,
                     array('required',
                     'id'=>'hargajual',
                     'placeholder'=>'Harga Jual'
@@ -82,7 +83,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('harga_jual_reseller',old('harga_jual_reseller'),
+                    {!!Form::text('harga_jual_reseller',$hasil->harga_jual_reseller,
                     array('required',
                     'id'=>'hargareseller',
                     'placeholder'=>'Harga Reseller'
@@ -100,8 +101,8 @@
                 {{--yg dibawah ini merupakan teknik menampilkan record dari DB pada Selectbox
                 dengan teknik laravel 5.3 keatas --}}
                 {{-- [''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all() --}}
-                    {!! Form::select('satuan',[''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all(),'MONCROT') !!}
-                    <i aria-hidden="true"></i>
+                    {!! Form::select('satuan',[''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all(),$hasil->satuan) !!}
+                    {{-- <i aria-hidden="true"></i> --}}
                 </div>
             </div>
         </div>
@@ -111,7 +112,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('isi_persatuan',old('isi_persatuan'),
+                    {!!Form::text('isi_persatuan',$hasil->isi_persatuan,
                     array('required',
                     'id'=>'isipersatuan',
                     'placeholder'=>'Isi persatuan barang'
@@ -126,7 +127,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('jumlah_brg',old('jumlah_brg'),
+                    {!!Form::text('jumlah_brg',$hasil->jumlah_brg,
                     array('required',
                     'id'=>'jmlbrg',
                     'placeholder'=>'Jumlah Barang'
@@ -141,7 +142,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::file('photo',['class'=>'ambilfile'])!!}
+                    {!!Form::file('photo',$hasil->file('photo'),['class'=>'ambilfile'])!!}
                     <i aria-hidden="true"></i>
                 </div>
             </div>

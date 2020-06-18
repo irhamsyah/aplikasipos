@@ -6,16 +6,52 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="{{asset('css/forminput.css')}}">
-<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-
-<link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('css/forminput.css')}}">
+<link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> 
 <link rel="stylesheet" href="{{asset('css/tampilantable.css')}}">
-<link rel="stylesheet" href="{{asset('css/pagination.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('css/pagination.css')}}"> --}}
 
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+    $( function() {
+    $( "#datepicker2" ).datepicker();
+  } );
+     function konfirmasi()
+     {
+     tanya = confirm("Anda Yakin Akan Menghapus Data ?");
+     if (tanya == true) return true;
+     else return false;
+     }
+tinymce.init({
+  selector: 'textarea',
+  height: 500,
+  theme: 'modern',
+  plugins: [
+    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+    'searchreplace wordcount visualblocks visualchars code fullscreen',
+    'insertdatetime media nonbreaking save table contextmenu directionality',
+    'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
+  ],
+  toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
+  image_advtab: true,
+  templates: [
+    { title: 'Test template 1', content: 'Test 1' },
+    { title: 'Test template 2', content: 'Test 2' }
+  ],
+  content_css: [
+    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+    '//www.tinymce.com/css/codepen.min.css'
+  ]
+ });
+  </script>
+
 <body class="w3-light-grey">
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
