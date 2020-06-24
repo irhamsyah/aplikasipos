@@ -18,8 +18,10 @@ class CreateTransaksiTable extends Migration
             $table->string('barang_id',30);
             $table->foreign('barang_id')->references('barang_id')->on('barang');            
             $table->string('nama_brg',75);
-            $table->decimal('bayar',8,0)->default(0);
+            $table->decimal('jumlah_transaksi',8,0)->default(0);
             $table->integer('jumlah_item_trans')->unsigned();
+            $table->date('tgl_trans');
+            $table->integer('discount');
             $table->timestamps();
         });
     }

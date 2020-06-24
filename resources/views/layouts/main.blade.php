@@ -7,15 +7,40 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="{{asset('css/forminput.css')}}">
-<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-
+{{-- <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> --}}
 <link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}">
 <link rel="stylesheet" href="{{asset('css/tampilantable.css')}}">
-<link rel="stylesheet" href="{{asset('css/pagination.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('css/pagination.css')}}"> --}}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!---- Buata data table ---------------->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script><script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+
+
+<!--------------------------------------->
 
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+    $( function() {
+    $( "#datepicker2" ).datepicker();
+  } );
+     function konfirmasi()
+     {
+     tanya = confirm("Anda Yakin Akan Menghapus Data ?");
+     if (tanya == true) return true;
+     else return false;
+     }
+</script>
 <body class="w3-light-grey">
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
@@ -45,20 +70,21 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                          document.getElementById('logout-form').submit();">
             {{ __('Logout') }}
         </a>
-
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
-    </div>
+      </div>
 
         <?php
             }
         ?>
-      <a href="https://mail.google.com" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
-      <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
-      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+        <a href="https://mail.google.com" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+        <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
+        Logot
+        </i></a>
     </div>
   </div>
+
   <hr>
   <div class="w3-container">
     <h5>Dashboard</h5>
@@ -67,8 +93,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
   <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Traffic</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
+  <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
+    <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
@@ -83,7 +109,18 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 @yield('content')
+
 <script>
+//Buata data TABLES
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "columnDefs": [ {
+            "visible": true,
+            "responsive": true,
+            "targets": -1
+        } ]
+    } );
+} );
 // Get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
 

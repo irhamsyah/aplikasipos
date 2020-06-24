@@ -5,8 +5,8 @@
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
   <!-- Form -->
-  <h2 style="margin-left:20px ">Input Data Barang</h2>
-    <div class="container">
+  <h2 style="margin-left:20px ">List Data Barang</h2>
+    <div class="container" style="overflow-x:auto;">
         <table id="customers">
             <tr>
                 <th>Kode Barang</th>

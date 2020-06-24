@@ -15,9 +15,10 @@ class CreateResellerTable extends Migration
     {
         Schema::create('reseller', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_reseller',79);
             $table->string('no_ktp',30);    
-            $table->string('alamat',30);
+            $table->string('nama_reseller',79);
+            $table->string('alamat',150);
+            $table->string('email',65);
             $table->timestamps();
         });
     }

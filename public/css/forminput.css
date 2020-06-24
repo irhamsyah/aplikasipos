@@ -25,35 +25,22 @@ input[type=submit] {
   float: right;
 }
 
-.tbl-simpan {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 850px;
-    float: right;
-  }
-  
-  .ambilfile{
-    margin-top: 16px;
-  }
+input[type=submit]:hover {
+  background-color: #45a049;
+}
 
-button[type=reset] {
-  background-color: rgb(224, 17, 97);
+input[type=reset] {
+  background-color: red;
   color: white;
-  padding: 12px 30px;
+  padding: 12px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  float: left;
-  margin: -47px 100px 100px 720px;
+  float: right;
 }
 
-
-input[type=submit]:hover {
-  background-color: #45a049;
+input[type=reset]:hover {
+  background-color:red;
 }
 
 .container {
@@ -80,14 +67,76 @@ input[type=submit]:hover {
   display: table;
   clear: both;
 }
-label.awesome{
-  margin-left: 20px;
-}
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
+  .col-25, .col-75, .klastomboledit, input[type=submit], input[type=reset]{
     width: 100%;
-    margin-top: 0;
+    margin-top: 0px;
   }
 }
+
+div.row-batas1
+{
+  /* background: red; */
+  border: 1px solid;
+  width: 500px;
+  margin-left: 20px;
+
+}
+div.row-batas2
+{
+  border: 1px solid;
+  width: 400px;
+  float: right;
+  margin-top: -137px;
+  margin-left: 1px;
+}
+.diinput{
+  color: rgb(0, 3, 0);
+  font-size: 17px;
+  width: 20px;
+  background-color:white;
+}
+
+.klastomboledit {
+  text-decoration: none;
+  text-align: center;
+  background-color:red;
+  color: white;
+  padding: 12px 20px;
+  border: solid;
+  border-radius: 4px;
+  float: right;
+  /* margin: -4px 20px; */
+  /* cursor: pointer; */
+}
+.tbl-simpan{
+  margin-top: 4px;
+}
+.ambilfile{
+  margin-top: 16px;
+}
+/* input[type=button], input[type=submit], input[type=reset] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+} */
+
+/* button[type=reset] {
+background-color: rgb(224, 17, 97);
+color: white;
+padding: 12px 30px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+float: left;
+margin: -47px 100px 100px 720px;
+}
+button[type=reset]:hover {
+  background-color: #45a049;
+} */

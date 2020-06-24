@@ -6,7 +6,7 @@
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
   <!-- Form -->
-  <h2 style="margin-left:20px ">Form Edit Data Barang</h2>
+  <h2 style="margin-left:20px ">Form Edit Transaksi</h2>
     <div class="container">
         @if(session()->has('message'))
         <div class="alert alert-success">
@@ -14,9 +14,15 @@
         </div>
         @endif
 
-    {!!Form::open(['route'=>['updatedatabarang',$hasil],'enctype'=>'multipart/form-data']) !!}
+    {!!Form::open(['route'=>['simpanupdatetransaksi',$hasil],'enctype'=>'multipart/form-data']) !!}
         {{ csrf_field() }}
-        {!! Form::hidden('id', $hasil->barang_id) !!}
+        {!! Form::hidden('id', $hasil->id) !!}
+        {!! Form::hidden('barang_id', $hasil->barang_id) !!}
+        {!! Form::hidden('harga_jual', $hasil->harga_jual) !!}
+        {!! Form::hidden('harga_brg', $hasil->harga_brg) !!}
+        {!! Form::hidden('jumlah_brg', $hasil->jumlah_brg) !!}
+
+        {!! Form::hidden('jumlah_item_trans_sebelum', $hasil->jumlah_item_trans) !!}
 
         <div class="row">
             <div class="col-25">
@@ -25,8 +31,9 @@
             <div class="col-75">
                 <div class="inputWithIcon">
                     {!!Form::text('barang_id',$hasil->barang_id,
-                    array('required',
+                    array('required','disabled',
                     'id'=>'kodebrg',
+                    'class'=>'diinput',
                     'placeholder'=>'Kode Barang'
                     ))!!}
                     <i class="fa fa-qrcode fa-lg fa-fw" aria-hidden="true"></i>
@@ -40,8 +47,9 @@
             <div class="col-75">
                 <div class="inputWithIcon">
                     {!!Form::text('nama_brg',$hasil->nama_brg,
-                    array('required',
+                    array('required','disabled',
                     'id'=>'namabrg',
+                    'class'=>'diinput',
                     'placeholder'=>'Nama Barang'
                     ))!!}
                     <i class="fa fa-film fa-lg fa-fw" aria-hidden="true"></i>
@@ -55,8 +63,9 @@
             <div class="col-75">
                 <div class="inputWithIcon">
                     {!!Form::text('harga_brg',$hasil->harga_brg,
-                    array('required',
+                    array('required','disabled',
                     'id'=>'hargabrg',
+                    'class'=>'diinput',
                     'placeholder'=>'Harga Pokok Barang'
                     ))!!}
                     <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
@@ -70,8 +79,9 @@
             <div class="col-75">
                 <div class="inputWithIcon">
                     {!!Form::text('harga_jual',$hasil->harga_jual,
-                    array('required',
+                    array('required','disabled',
                     'id'=>'hargajual',
+                    'class'=>'diinput',
                     'placeholder'=>'Harga Jual'
                     ))!!}
                     <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
@@ -80,14 +90,14 @@
         </div>
         <div class="row">
             <div class="col-25">
-                {!!Form::label('hargareseller','Harga Reseller',['class'=>'awesome'])!!}
+                {!!Form::label('itemterjual','Jumlah Item Dibeli',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('harga_jual_reseller',$hasil->harga_jual_reseller,
+                    {!!Form::text('jumlah_item_trans',null,
                     array('required',
-                    'id'=>'hargareseller',
-                    'placeholder'=>'Harga Reseller'
+                    'id'=>'itemterjual',
+                    'placeholder'=>'Jumlah Item Dibeli'
                     ))!!}
                     <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
                 </div>
@@ -95,66 +105,37 @@
         </div>
         <div class="row">
             <div class="col-25">
-                {!!Form::label('kodesatuan','Satuan Barang',['class'=>'awesome'])!!}
+                {!!Form::label('disc','Discount',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                {{--yg dibawah ini merupakan teknik menampilkan record dari DB pada Selectbox
-                dengan teknik laravel 5.3 keatas --}}
-                {{-- [''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all() --}}
-                    {!! Form::select('satuan',[''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all(),$hasil->satuan) !!}
-                    {{-- <i aria-hidden="true"></i> --}}
+                    {!!Form::number('discount',0,['required'])!!}
+                    <span>%</span>
+                    {{-- <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i> --}}
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-25">
-                {!!Form::label('isipersatuan','Jumlah Isi per Sataun',['class'=>'awesome'])!!}
+                {!!Form::label('tgltrans','Tanggal Transaksi',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('isi_persatuan',$hasil->isi_persatuan,
+                    {!!Form::text('tgl_trans',null,
                     array('required',
-                    'id'=>'isipersatuan',
-                    'placeholder'=>'Isi persatuan barang'
-                    ))!!}
+                    'id'=>'datepicker',
+                    'placeholder'=>''
+                    ))!!} 
                     <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-25">
-                {!!Form::label('jmlbrg','Jumlah Barang',['class'=>'awesome'])!!}
-            </div>
-            <div class="col-75">
-                <div class="inputWithIcon">
-                    {!!Form::text('jumlah_brg',$hasil->jumlah_brg,
-                    array('required',
-                    'id'=>'jmlbrg',
-                    'placeholder'=>'Jumlah Barang'
-                    ))!!}
-                    <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
-                </div>
-            </div>
+
         </div>
-        <div class="row">
-            <div class="col-25">
-                {!!Form::label('imgbrg','Image Barang',['class'=>'awesome'])!!}
-            </div>
-            <div class="col-75">
-                <div class="inputWithIcon">
-                        {!!Form::file('photo',['class'=>'ambilfile'])!!}
-                        <p></p>
-                        File sebelumnya:
-                        {{$hasil->photo}}
-                </div>
-            </div>
-        </div>
-        <div class="row">
-                    {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}       
-                    <input type="reset" value="Reset">
-         
-        </div>
+        {!! Form::submit('Update',['class'=>'tbl-simpan']) !!}      
+        <a href="{{route('listtransaksi')}}" class="klastomboledit">Batal</a>
 
     {!!Form::close()!!}
 

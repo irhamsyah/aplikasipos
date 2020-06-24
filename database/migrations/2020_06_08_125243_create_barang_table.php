@@ -21,7 +21,7 @@ class CreateBarangTable extends Migration
             $table->decimal('harga_brg',7,0)->default(0);
             $table->decimal('harga_jual',7,0)->default(0);
             $table->decimal('harga_jual_reseller',7,0)->default(0);
-            $table->string('satuan',25);
+            $table->bigInteger('satuan')->unsigned();
             $table->bigInteger('isi_persatuan')->unsigned();
             $table->bigInteger('jumlah_brg')->unsigned();
             $table->string('photo',150);

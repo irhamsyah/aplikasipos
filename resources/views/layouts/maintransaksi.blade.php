@@ -6,11 +6,12 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-{{-- <link rel="stylesheet" href="{{asset('css/forminput.css')}}">
-<link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}"> --}}
-<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> 
+{{-- <link rel="stylesheet" href="{{asset('css/forminput.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}"> --}}
 <link rel="stylesheet" href="{{asset('css/tampilantable.css')}}">
 {{-- <link rel="stylesheet" href="{{asset('css/pagination.css')}}"> --}}
+{{-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> --}}
 <!---- Buata data table ---------------->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
@@ -23,7 +24,7 @@
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
 <script>
-  $( function() {
+    $( function() {
     $( "#datepicker" ).datepicker();
   } );
     $( function() {
@@ -35,30 +36,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
      if (tanya == true) return true;
      else return false;
      }
-tinymce.init({
-  selector: 'textarea',
-  height: 500,
-  theme: 'modern',
-  plugins: [
-    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-    'searchreplace wordcount visualblocks visualchars code fullscreen',
-    'insertdatetime media nonbreaking save table contextmenu directionality',
-    'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
-  ],
-  toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-  toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
-  image_advtab: true,
-  templates: [
-    { title: 'Test template 1', content: 'Test 1' },
-    { title: 'Test template 2', content: 'Test 2' }
-  ],
-  content_css: [
-    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-    '//www.tinymce.com/css/codepen.min.css'
-  ]
- });
-  </script>
-
+</script>
 <body class="w3-light-grey">
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
@@ -88,22 +66,21 @@ tinymce.init({
                          document.getElementById('logout-form').submit();">
             {{ __('Logout') }}
         </a>
-
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
-    </div>
+      </div>
 
         <?php
             }
         ?>
-      <a href="https://mail.google.com" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
-      <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
+        <a href="https://mail.google.com" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+        <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
         Logot
-      </i></a>
-      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+        </i></a>
     </div>
   </div>
+
   <hr>
   <div class="w3-container">
     <h5>Dashboard</h5>
@@ -112,8 +89,8 @@ tinymce.init({
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
   <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
-    <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
-    <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
+  <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
@@ -128,13 +105,13 @@ tinymce.init({
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 @yield('content')
+
 <script>
 //Buata data TABLES
 $(document).ready(function() {
     $('#example').DataTable( {
         "columnDefs": [ {
-            "visible": true,
-            "responsive": true,
+            "visible": false,
             "targets": -1
         } ]
     } );

@@ -148,10 +148,9 @@
         </div>
         <div class="row">
                     {{ csrf_field() }}
-                    {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}                
-        </div>
-        <div class="row">
-                    <button type="reset">Batal  </button>
+                    {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!} 
+                    <input type="reset" value="Reset">
+               
         </div>
 
     {!!Form::close()!!}
