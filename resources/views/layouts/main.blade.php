@@ -7,18 +7,27 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="{{asset('css/forminput.css')}}">
-{{-- <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}">
-<link rel="stylesheet" href="{{asset('css/tampilantable.css')}}">
+<link rel="stylesheet" href="{{asset('css/tampilantable.css')}}"> 
 {{-- <link rel="stylesheet" href="{{asset('css/pagination.css')}}"> --}}
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<!---- Buata data table ---------------->
+<!-------------------------Buat Shopper------------------------>
+<link rel="stylesheet" href="{{ asset('shopper') }}/fonts/icomoon/style.css">
+
+{{-- <link rel="stylesheet" href="{{ asset('shopper') }}/css/bootstrap.min.css"> --}}
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/magnific-popup.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/owl.carousel.min.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/aos.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/style.css">
+<!------------------------------------------------------------->
+
+{{-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> --}}
+<!---------------------Buata data table ---------------->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
- 
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script><script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
-
-
-<!--------------------------------------->
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script><script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+<!-------------------------------------------------------->
 
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -95,9 +104,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
   <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
     <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
+  <a href="{{route('inputdatareseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Input Reseller</a>
+  <a href="{{route('listreseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  List Reseller</a>
+  <a href="{{route('inputransaksireseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Input Transaksi Reseller</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
   </div>
@@ -145,5 +154,10 @@ function w3_close() {
 }
 </script>
 
+<script src="{{ asset('shopper') }}/js/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('shopper') }}/js/owl.carousel.min.js"></script>
+<script src="{{ asset('shopper') }}/js/aos.js"></script>
+<script src="{{ asset('shopper') }}/js/main.js"></script>
+  @yield('js')
 </body>
 </html>

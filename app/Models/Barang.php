@@ -29,6 +29,19 @@ class Barang extends Model
     	return $this->belongsTo('App\Models\Satuan');
     }
 
+    //Fungsi dibawah menyatakan bahwa tabel barang punya relasi ke Tabel transaksiresellers
+    //Relasi One -> To Many melaui foreignkey barang_id pada Table  transaksiresellers
+
+    public function transaksiresellers()
+    {
+        return $this->hasMany('App\Models\Transaksireseller', 'barang_id', 'barang_id');
+    }
+
+    public function keranjang()
+    {
+        return $this->hasMany('App\Models\Keranjang', 'barang_id', 'barang_id');
+    }
+
     public function getPhotoPathAttribute()
     {
         if ($this->photo !== '') {

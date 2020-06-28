@@ -18,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Auth::routes();
-Route::get('/', function(){
-    // return view('auth.login1');
-    return view('getting');
-})->middleware('auth');;
 
 //Route unutk menghindari langsung ke DASHBOARD
 Route::get('login', function(){
@@ -31,16 +27,19 @@ Route::get('login', function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('adminlogin', function () {
-    // Only authenticated users may enter...
-    return view('getting');
+Route::get('adminlogin',
+[
+    'middleware'=>'auth',
+    'as'=>'lihatproduk',
+    'uses'=>'BarangController@index'
 
-})->middleware('auth');
+]);
 
-Route::post('adminlogin',             [
+Route::post('adminlogin',       
+[
     'as'=>'adminlogin',
     'uses'=>'BarangController@adminlogin'
-    ]);
+]);
 
 Route::get('/logout',
 [
@@ -51,6 +50,14 @@ Route::get('/logout',
 // Route::get('inputdata', function () {
 //     return view('forminputdata');
 // })->name('inputdata')->middleware('auth');
+Route::get('/',
+[
+    'middleware'=>'auth',
+    'as'=>'index',
+    'uses'=>'BarangController@index'
+]);
+
+Route::get('/produk/{id}','BarangController@detail')->name('produkdetail');
 
 Route::get('inputdatabarang', 
 [   
@@ -113,12 +120,11 @@ Route::get('inputtransaksi/{id}',
 ]);
 
 
-Route::post('/simpantransaksi/{id}',
+Route::post('simpantransaksi',
 [
     'as'=>'simpantransaksi',
     'uses'=>'BarangController@simpantransaksi'
-]
-);
+]);
 
 Route::get('listtransaksi', 
 [   
@@ -147,9 +153,89 @@ Route::post('simpanupdatetransaksi/{id}',
     'uses'=>'BarangController@simpanupdatetransaksi'
 ]);
 
-Route::get('tes', 
+Route::get('inputdatareseller', 
 [
-    'as'=>'tes',
-    'uses'=>'BarangController@tes'
-]
-);
+    'as'=>'inputdatareseller',
+    'uses'=>'BarangController@inputdatareseller'
+]);
+
+Route::post('simpaninputreseller',
+[
+    'as'=>'simpaninputreseller',
+    'uses'=>'BarangController@simpaninputreseller'
+]);
+
+Route::get('listreseller', 
+[   
+    'middleware'=>'auth',
+    'as'=>'listreseller',
+    'uses'=>'BarangController@listreseller'
+]);
+
+Route::delete('hapusreseller/{id}', 
+[
+    'as'=>'hapusreseller',
+    'uses'=>'BarangController@hapusreseller'
+]);
+
+Route::get('editreseller/{id}',
+[
+    'middleware'=>'auth',
+    'as'=>'editreseller',
+    'uses'=>'BarangController@editreseller'
+]);
+
+Route::get('inputransaksireseller', 
+[   
+    'middleware'=>'auth',
+    'as'=>'inputransaksireseller',
+    'uses'=>'BarangController@inputransaksireseller'
+]);
+
+Route::get('detailproduk/{id}',
+[
+    'middleware'=>'auth',
+    'as'=>'detailproduk',
+    'uses'=>'BarangController@detailproduk'
+]);
+
+Route::get('keranjang',
+[
+    'middleware'=>'auth',
+    'as'=>'keranjang',
+    'uses'=>'BarangController@keranjangindex'
+]);
+
+Route::post('keranjang/{id}',
+[
+    'middleware'=>'auth',
+    'as'=>'keranjang.simpan',
+    'uses'=>'BarangController@keranjang'
+]);
+
+Route::post('keranjangupdate',
+[
+    'middleware'=>'auth',
+    'as'=>'keranjang.update',
+    'uses'=>'BarangController@keranjangupdate'
+]);
+
+Route::get('keranjangdelete/{id}',
+[
+    'middleware'=>'auth',
+    'as'=>'keranjang.delete',
+    'uses'=>'BarangController@keranjangdelete'
+]);
+
+Route::get('keranjangcheckout',
+[
+    'middleware'=>'auth',
+    'as'=>'keranjang.checkout',
+    'uses'=>'BarangController@keranjangcheckout'
+]);
+
+Route::post('simpancheckout',
+[
+    'as'=>'simpan.checkout',
+    'uses'=>'BarangController@simpancheckout'
+]);

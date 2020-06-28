@@ -152,8 +152,8 @@
         </div>
         <div class="row">
                     {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}       
-                    <input type="reset" value="Reset">
-         
+                    {{-- <input type="reset" class="tbl-simpan" value="Reset"> --}}
+                    <a href="{{route('editdatabarang')}}" class="klastomboledit">Batal</a>
         </div>
 
     {!!Form::close()!!}

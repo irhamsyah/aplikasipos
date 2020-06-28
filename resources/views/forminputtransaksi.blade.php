@@ -6,7 +6,7 @@
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
   <!-- Form -->
-  <h2 style="margin-left:20px ">Form Edit Data Barang</h2>
+  <h2 style="margin-left:20px ">Form Input Transaksi</h2>
     <div class="container">
         @if(session()->has('message'))
         <div class="alert alert-success">
@@ -128,12 +128,9 @@
             </div>
         </div>
         <div class="row">
-                    {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}                
+                    {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}           
+                    <a href="{{route('inputransaksi')}}" class="klastomboledit">Batal</a>
         </div>
-        <div class="row">
-                    <button type="reset">Batal  </button>
-        </div>
-
     {!!Form::close()!!}
 
     </div>

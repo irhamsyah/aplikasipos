@@ -22,6 +22,7 @@ class CreateTransaksiTable extends Migration
             $table->integer('jumlah_item_trans')->unsigned();
             $table->date('tgl_trans');
             $table->integer('discount');
+            $table->string('nota',40)->nullable();
             $table->timestamps();
         });
     }
