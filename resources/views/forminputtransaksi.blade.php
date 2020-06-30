@@ -17,8 +17,7 @@
     {!!Form::open(['route'=>['simpantransaksi',$hasil],'enctype'=>'multipart/form-data']) !!}
         {{ csrf_field() }}
         {!! Form::hidden('jumlah_brg', $hasil->jumlah_brg) !!}
-        {!! Form::hidden('harga_jual', $hasil->harga_jual) !!}
-        {!! Form::hidden('nama_brg', $hasil->nama_brg) !!}
+        {!! Form::hidden('barang_id', $hasil->barang_id) !!}
 
         <div class="row">
             <div class="col-25">
@@ -90,12 +89,12 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('jumlah_item_trans',null,
+                    {!!Form::number('qty',null,
                     array('required',
                     'id'=>'itemterjual',
-                    'placeholder'=>'Jumlah Item Dibeli'
+                    'placeholder'=>'Jumlah Item'
                     ))!!}
-                    <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
+                    {{-- <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i> --}}
                 </div>
             </div>
         </div>
@@ -111,18 +110,13 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-25">
                 {!!Form::label('tgltrans','Tanggal Transaksi',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('tgl_trans',null,
-                    array('required',
-                    'id'=>'datepicker',
-                    'placeholder'=>''
-                    ))!!} 
+                    {!!Form::date('tgl_trans',\Carbon\Carbon::now())!!} 
                     <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
                 </div>
             </div>

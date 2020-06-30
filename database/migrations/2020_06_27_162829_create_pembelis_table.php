@@ -19,6 +19,7 @@ class CreatePembelisTable extends Migration
             $table->string('nama',75);
             $table->longText('alamat');
             $table->date('tgl_trans');
+            $table->date('tgl_jt_bayar');
             $table->timestamps();
         });
     }

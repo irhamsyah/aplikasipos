@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Satuan;
 use App\Models\Barang;
@@ -11,7 +12,6 @@ use App\Models\Transaksi;
 use App\Models\Reseller;
 use App\Models\Keranjang;
 use App\Models\Pembeli;
-
 use App\Users;
 
 use Illuminate\Support\Facades\DB;
@@ -20,6 +20,7 @@ use Validator;
 use Hash;
 use Image;
 use Mail;
+use PDF;
 
 class BarangController extends Controller
 {
@@ -125,7 +126,7 @@ class BarangController extends Controller
     //Munculkan list data barang yg akan Edit or delete
     public function editbarang()
     {
-        $barang = Barang::paginate(10);
+        $barang = Barang::latest()->get();
         return view('listbarang', compact('barang'));
     }
     
@@ -188,16 +189,36 @@ class BarangController extends Controller
     public function simpantransaksi(Request $request)
     {
         // dd($request);
-        $carinota=Pembeli::where('nota',$request->nota);
-        if(!empty($carinota))
-        {
-            session()->flash('message', 'Nota' . $request->nota .' Sudah Ada');
-            session()->flash('type', 'success');
-            return redirect()->route('simpantransaksi');
-        }
-        else
-        {
-            dd($request);
+        // $carinota=Pembeli::where('nota',$request->nota);
+        // if(!empty($carinota))
+        // {
+        //     session()->flash('message', 'Nota' . $request->nota .' Sudah Ada');
+        //     session()->flash('type', 'success');
+        //     return redirect()->route('simpantransaksi');
+        // }
+        // else
+        // {
+            // dd($request);
+            $data = $request->only('barang_id','qty');
+            $cari=Keranjang::where('barang_id','=',trim($request->barang_id))->get();
+            $test=0;
+            foreach($cari as $value)
+            {
+                $test=$value->qty;
+            }
+            if($test>0)
+            {
+                $total=$test + $request->input('qty');
+                /* Udapte Kernjang */
+                $barang2 = Keranjang::where('barang_id',$request->barang_id)
+                ->update(['qty'=>$total]) ;
+            }else{
+                            $data['jumlah_transaksi']=($request->input('harga_jual')-($request->input('harga_jual')*$request->input('discount')/100))*$request->input('jumlah_item_trans');
+
+                Keranjang::create($data);
+            }
+            return redirect()->route('keranjang');
+
                    /* Proses Update Data Barang */
 
 
@@ -237,7 +258,7 @@ class BarangController extends Controller
 
     //     }
 
-        }
+        // }
 
     }
     public function listtransaksi()
@@ -445,29 +466,45 @@ class BarangController extends Controller
     public function keranjangcheckout()
     {
         // dd($request);
-        // $keranjang = Keranjang::paginate(8);
         $keranjang = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
         ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
         ->paginate();
-
-        return view('formcheckout', compact('keranjang'));
+        /*****Cara Converting String to number***/
+        // <?php
+        //     $variable=999;
+        //     echo sprintf("%'04d", $variable);
+        //     Hasil : '0999'
+        //     echo("<br>");
+        //     $str = "0901";
+        //     $anInt = intval($str);
+        //     echo $anInt;
+        //     Hasil : 901
+        $carinota=Pembeli::orderBy('nota','desc')->first();
+        if(!empty($carinota))
+        {
+            $nota1=intval(substr($carinota->nota,5,4))+1;
+            $carinota['nota']="MJJF/".sprintf("%'04d",$nota1)."-".date('dmy');
+        }else{
+            $carinota['nota']="MJFF/0001"."-".date('dmy');
+        }
+        $data = [
+            'keranjang' => $keranjang,
+            'carinota'  => $carinota
+        ];
+        return view('formcheckout', $data);
+        // return view('formcheckout', compact('keranjang'));
     }
 
     public function simpancheckout(Request $request)
     {
-        $carinota=Pembeli::where('nota',$request->nota)->get();
-        $nota="";
-        foreach($carinota as $value)
+        $carinota=Pembeli::where('nota',$request->nota)->count();
+        if($carinota>0)
         {
-            $nota=$value->nota;
-        }
-        if(trim($nota)==trim($request->nota))
-        {
-            session()->flash('message', 'Nota' . $request->nota .' Sudah Ada');
+            session()->flash('message', 'Nota' . $request->input('nota') .' Sudah Ada');
             session()->flash('type', 'success');
-            return redirect()->route('simpan.checkout');
-        }else
+            return redirect()->route('keranjang.checkout');
+        } else
         {
             // dd($request);
             $this->validate($request,
@@ -475,7 +512,8 @@ class BarangController extends Controller
                 'nota' => 'required',
                 'nama' => 'required',
                 'alamat'=>'required',
-                'tgl_trans'
+                'tgl_trans',
+                'jangkawaktu'
             ]);
             $data=$request->only('nota','nama','alamat','tgl_trans');
             $index = 0;
@@ -510,11 +548,37 @@ class BarangController extends Controller
 
                 $index++;
             }
-
+            /*Penjumlahan tanggal untuk mendapatkan data setelah di jumlah jangka waktu*/
+            $tgltrans=strtotime($request->input('tgl_trans'));
+            $data['tgl_jt_bayar']= date('Y-m-d', strtotime('+'.$request->jangkawaktu.' days', $tgltrans));
+            /************************/
             Pembeli::create($data);
             DB::table('keranjangs')->delete();
-            return redirect()->route('keranjang');
+            $faktur = DB::table('pembelis')
+            ->join('transaksi','pembelis.nota','=','transaksi.nota')
+            ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar')
+            ->get();
+    
+            // $faktur = Pembeli::find($request->nota)->transaksi()->orderBy('barang_id')->get();
+
+            return view('pdf.faktur',compact('faktur'));
+
+            // return redirect()->route('report');
         }
+
+    }
+    public function report()
+    {
+        /****Buat Report ******/
+        // $faktur = Pembeli::find('MJFF/0001-300620')->transaksi()->orderBy('barang_id')->get();
+        $faktur = DB::table('pembelis')
+        ->join('transaksi','pembelis.nota','=','transaksi.nota')
+        ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar')
+        ->where('pembelis.nota','MJFF/0001-300620')
+        ->get();
+
+        return view('pdf.faktur',compact('faktur'));
+        // return dd($faktur);
 
     }
 }

@@ -13,7 +13,6 @@
             {{session()->get('message')}}
         </div>
         @endif
-
     {!!Form::open(['route'=>'simpan.checkout','method'=>'POST','enctype'=>'multipart/form-data'])!!}
         {{ csrf_field() }}
         <div class="row">
@@ -22,7 +21,7 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    {!!Form::text('nota',null,
+                    {!!Form::text('nota',$carinota['nota'],
                     array('required',
                     'id'=>'nonota',
                     'class'=>'diinput',
@@ -75,6 +74,22 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-25">
+                {!!Form::label('interval','Jangka Waktu',['class'=>'awesome'])!!}
+            </div>
+            <div class="col-75">
+                <div class="inputWithIcon">
+                    {!!Form::number('jangkawaktu',null,
+                    array('required',
+                    'id'=>'interval',
+                    'placeholder'=>'Jangka Waktu'
+                    ))!!}
+                    {{-- <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i> --}}
+                </div>
+            </div>
+        </div>
+
         <!----Table------>
         <h2 style="margin-left:20px ">List Data Barang</h2>
         <div class="container" style="overflow-x:auto;">

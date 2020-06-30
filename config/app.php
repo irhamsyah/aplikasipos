@@ -177,7 +177,8 @@ return [
         
         /* Pake Datatable*/
         Yajra\DataTables\DataTablesServiceProvider::class,
-
+        /* Untuk SNAPY WKHTMLTOPDF*/
+        Barryvdh\Snappy\ServiceProvider::class,
     ],
 
     /*

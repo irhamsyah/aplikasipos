@@ -11,14 +11,25 @@
 {{-- <link rel="stylesheet" href="{{asset('css/aturiconglypchon.css')}}"> --}}
 <link rel="stylesheet" href="{{asset('css/tampilantable.css')}}">
 {{-- <link rel="stylesheet" href="{{asset('css/pagination.css')}}"> --}}
-{{-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> --}}
-<!---- Buata data table ---------------->
+<!-------------------------Buat Shopper------------------------>
+<link rel="stylesheet" href="{{ asset('shopper') }}/fonts/icomoon/style.css">
+
+{{-- <link rel="stylesheet" href="{{ asset('shopper') }}/css/bootstrap.min.css"> --}}
+{{-- <link rel="stylesheet" href="{{ asset('shopper') }}/css/magnific-popup.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/owl.carousel.min.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/aos.css">
+<link rel="stylesheet" href="{{ asset('shopper') }}/css/style.css">
+<!------------------------------------------------------------->
+
+{{-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> --}} --}}
+<!---------------------Buata data table ---------------->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
 
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-<!--------------------------------------->
+<!-------------------------------------------------------->
 
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -74,7 +85,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <?php
             }
         ?>
-        <a href="https://mail.google.com" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+        <a href="{{route('index')}}" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a>
         <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
         Logot
         </i></a>
@@ -86,11 +97,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <h5>Dashboard</h5>
   </div>
   <div class="w3-bar-block">
-    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-  <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
+    {{-- <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a> --}}
+    <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
   <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
-  <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
+    <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
   <a href="{{route('inputdatareseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Input Reseller</a>
   <a href="{{route('listreseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  List Reseller</a>
   <a href="{{route('inputransaksireseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Input Transaksi Reseller</a>
@@ -140,5 +151,11 @@ function w3_close() {
 }
 </script>
 
+<script src="{{ asset('shopper') }}/js/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('shopper') }}/js/owl.carousel.min.js"></script>
+<script src="{{ asset('shopper') }}/js/aos.js"></script>
+<script src="{{ asset('shopper') }}/js/main.js"></script>
+  @yield('js')
+  
 </body>
 </html>

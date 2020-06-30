@@ -16,7 +16,6 @@
         <h1 style="text-align: center">Input Transaksi</h1>
 
         <table id="example" class="display" style="width:100%;">
-    
             <thead>
                 <tr>
                     <th>Kode Barang</th>

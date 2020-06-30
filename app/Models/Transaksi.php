@@ -18,4 +18,11 @@ class Transaksi extends Model
         
     }
 
+    public function pembelis(){
+
+        return $this->belongsTo('App\Models\Pembeli');
+        
+    }
+
+
 }

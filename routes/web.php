@@ -239,3 +239,10 @@ Route::post('simpancheckout',
     'as'=>'simpan.checkout',
     'uses'=>'BarangController@simpancheckout'
 ]);
+
+Route::get('report',
+[
+    'middleware'=>'auth',
+    'as'=>'report',
+    'uses'=>'BarangController@report'
+]);

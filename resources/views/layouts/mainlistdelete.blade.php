@@ -97,11 +97,9 @@ tinymce.init({
         <?php
             }
         ?>
-      <a href="https://mail.google.com" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
-      <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
-        Logot
-      </i></a>
-      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+        <a href="{{route('index')}}" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a>
+        <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
+        Logot</i></a>
     </div>
   </div>
   <hr>
@@ -109,11 +107,10 @@ tinymce.init({
     <h5>Dashboard</h5>
   </div>
   <div class="w3-bar-block">
-    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-  <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
+    <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
   <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
-  <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
+    <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
   <a href="{{route('inputdatareseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Input Reseller</a>
   <a href="{{route('listreseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  List Reseller</a>
   <a href="{{route('inputransaksireseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Input Transaksi Reseller</a>
@@ -131,6 +128,13 @@ tinymce.init({
 //Buata data TABLES
 $(document).ready(function() {
     $('#example').DataTable( {
+        "columnDefs": [ {
+            "visible": true,
+            "responsive": true,
+            "targets": -1
+        } ]
+    } );
+    $('#customers').DataTable( {
         "columnDefs": [ {
             "visible": true,
             "responsive": true,

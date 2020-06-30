@@ -7,7 +7,7 @@
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
     <h5><b><i class="fa fa-shoping"></i> <a href="{{route('index')}}">My Dashboard</a></b></h5>
-    <h5><b><i class="fa fa-shoping"></i> <a href="{{route('index')}}"><span class="icon icon-add_shopping_cart"></span>Keranjang</a></b></h5>
+    <h5><b><i class="fa fa-shoping"></i> <a href="{{route('keranjang.checkout')}}"><span class="icon icon-add_shopping_cart"></span>Keranjang</a></b></h5>
 
   </header>
 
