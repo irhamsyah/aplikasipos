@@ -179,6 +179,9 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         /* Untuk SNAPY WKHTMLTOPDF*/
         Barryvdh\Snappy\ServiceProvider::class,
+        /***Export Data Ke EXCEL***/
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -232,6 +235,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         /* Pake datatabel */
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        /***Export Data Excel***/
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

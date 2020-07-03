@@ -81,7 +81,7 @@
             <div class="col-75">
                 <div class="inputWithIcon">
                     {!!Form::number('jangkawaktu',null,
-                    array('required',
+                    array(
                     'id'=>'interval',
                     'placeholder'=>'Jangka Waktu'
                     ))!!}
@@ -91,7 +91,7 @@
         </div>
 
         <!----Table------>
-        <h2 style="margin-left:20px ">List Data Barang</h2>
+        <h2 style="margin-left:20px ">List Barang Dibeli</h2>
         <div class="container" style="overflow-x:auto;">
             <table id="customers">
                 <tr>
@@ -125,8 +125,13 @@
                 @endforeach
             </table>
               {{$keranjang->links()}}
+              @foreach($keranjang as $value)
+              <input type="hidden" name="id[]" value="{{ $value->id }}">
+              <input type="hidden" name="barang_id[]" value="{{ $value->barang_id }}">
+              <input type="hidden" name="qty[]" value="{{ $value->qty }}">
+              @endforeach
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-11 text-right">
             <strong class="text-black">Rp. {{ number_format($subtotal,2,',','.') }}</strong>
             </div>
 
@@ -134,7 +139,7 @@
         <!--------------->
         <div class="row">
                     {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}           
-                    <a href="{{route('index')}}" class="klastomboledit">Batal</a>
+                    <a href="{{route('index')}}" class="klastomboledit">Belanja Lagi</a>
         </div>
     {!!Form::close()!!}
 

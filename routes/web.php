@@ -240,9 +240,38 @@ Route::post('simpancheckout',
     'uses'=>'BarangController@simpancheckout'
 ]);
 
-Route::get('report',
+Route::get('formcarijt',
 [
     'middleware'=>'auth',
-    'as'=>'report',
-    'uses'=>'BarangController@report'
+    'as'=>'lihatjatuhtempo',
+    'uses'=>'BarangController@lihatjatuhtempo'
 ]);
+
+route::post('carijatuhtempo',
+[
+    'middleware'=>'auth',
+    'as'=>'cari.jatuh.tempo',
+    'uses'=>'BarangController@carijatuhtempo'
+]);
+route::get('report',
+[
+    'as'=>'tesreport',
+    'uses'=>'BarangController@tesreport'
+]);
+
+route::get('lihatsalesreport',
+[
+    'middleware'=>'auth',
+    'as'=>'lihatsalesreport',
+    'uses'=>'BarangController@formlihatsalesreport'
+
+]);
+route::post('carisalesreport',
+[
+    'middleware'=>'auth',
+    'as'=>'cari.sales.report',
+    'uses'=>'BarangController@carisalesreport'
+
+]);
+
+Route::get('trans/export/', 'ExportController@export');

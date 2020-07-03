@@ -484,7 +484,7 @@ class BarangController extends Controller
         if(!empty($carinota))
         {
             $nota1=intval(substr($carinota->nota,5,4))+1;
-            $carinota['nota']="MJJF/".sprintf("%'04d",$nota1)."-".date('dmy');
+            $carinota['nota']="MJFF/".sprintf("%'04d",$nota1)."-".date('dmy');
         }else{
             $carinota['nota']="MJFF/0001"."-".date('dmy');
         }
@@ -550,35 +550,77 @@ class BarangController extends Controller
             }
             /*Penjumlahan tanggal untuk mendapatkan data setelah di jumlah jangka waktu*/
             $tgltrans=strtotime($request->input('tgl_trans'));
-            $data['tgl_jt_bayar']= date('Y-m-d', strtotime('+'.$request->jangkawaktu.' days', $tgltrans));
+            if(!empty($request->jangkawaktu)){
+                $data['tgl_jt_bayar']= date('Y-m-d', strtotime('+'.$request->jangkawaktu.' days', $tgltrans));
+            }else{
+                $data['tgl_jt_bayar']=null;
+            }
             /************************/
             Pembeli::create($data);
             DB::table('keranjangs')->delete();
+
+                /***Cetak Faktur***/
+
             $faktur = DB::table('pembelis')
             ->join('transaksi','pembelis.nota','=','transaksi.nota')
-            ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar')
+            ->join('barang','transaksi.barang_id','=','barang.barang_id')
+            ->join('satuan','barang.satuan','=','satuan.id')
+            ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan')
+            ->where('pembelis.nota',$request->nota)
             ->get();
-    
-            // $faktur = Pembeli::find($request->nota)->transaksi()->orderBy('barang_id')->get();
 
-            return view('pdf.faktur',compact('faktur'));
-
-            // return redirect()->route('report');
+            $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
+            return $pdf->stream('fakturrpt.pdf');
+            // return $pdf->inline('fakturrpt.pdf');
         }
 
     }
-    public function report()
+    public function lihatjatuhtempo()
     {
-        /****Buat Report ******/
-        // $faktur = Pembeli::find('MJFF/0001-300620')->transaksi()->orderBy('barang_id')->get();
+        /****Buat lihat data JT Byr ******/
+        return view('formcarijatuhtempo');
+    }
+
+    public function carijatuhtempo(Request $request)
+    {
+        // dd($request);
+        $cari = DB::table('pembelis')
+        ->join('transaksi','pembelis.nota','=','transaksi.nota')
+        ->select(DB::raw('SUM(transaksi.jumlah_item_trans) as jumlah_item_trans'),DB::raw('SUM(transaksi.jumlah_transaksi) as jumlah_transaksi'),'pembelis.nota','pembelis.nama','pembelis.alamat')
+        ->where('pembelis.tgl_jt_bayar','>=',$request->tgl_trans1)
+        ->where('pembelis.tgl_jt_bayar','<=',$request->tgl_trans2)
+        ->groupBy('pembelis.nota','pembelis.nama','pembelis.alamat')
+        ->get();
+        $lama=$request->only('tgl_trans1','tgl_trans2');
+        return view('formcarijatuhtempo',['cari'=>$cari,'lama'=>$lama]);
+        // return dd($lama);
+    }
+
+    public function formlihatsalesreport()
+    {
+        $transaksi=Transaksi::all();
+        return view('formsalesreport',compact('transaksi'));
+    }
+    public function carisalesreport()
+    {
+        $transaksi=Transaksi::all();
+        return view('formsalesreport',compact('transaksi'));
+    }
+    public function tesreport()
+    {
         $faktur = DB::table('pembelis')
         ->join('transaksi','pembelis.nota','=','transaksi.nota')
-        ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar')
-        ->where('pembelis.nota','MJFF/0001-300620')
+        ->join('barang','transaksi.barang_id','=','barang.barang_id')
+        ->join('satuan','barang.satuan','=','satuan.id')
+        ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan')
+        ->where('pembelis.nota','MJFF/0001-020720')
         ->get();
 
-        return view('pdf.faktur',compact('faktur'));
-        // return dd($faktur);
+        $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
+
+        return $pdf->stream('fakturrpt.pdf');
+
+        // return $pdf->inline('fakturrpt.pdf');
 
     }
 }
