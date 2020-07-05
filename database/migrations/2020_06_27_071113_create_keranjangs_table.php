@@ -17,6 +17,7 @@ class CreateKeranjangsTable extends Migration
             $table->id();
             $table->string('barang_id',30)->unique();
             $table->integer('qty');
+            $table->decimal('hargadijual',8,0)->default(0);
             $table->timestamps();
         });
     }

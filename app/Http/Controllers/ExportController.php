@@ -85,8 +85,10 @@ class ExportController extends Controller
     }
     public function export() 
     {
-        // return Excel::download(new TransaksiExport, 'transaksi.xlsx');
-        return (new TransaksiExport)->download('transaksi.xlsx');
+        return Excel::download(new TransaksiExport, 'transaksi.xlsx');
+        return redirect()->route('index');
+
+        // return (new TransaksiExport)->download('transaksi.xlsx');
 
     }
 

@@ -106,16 +106,18 @@
                 <?php $subtotal=0; ?>
                 @foreach($keranjang as $value)
                 <tr>
-                    <input type="hidden" name="id[]" value="{{ $value->id }}">
-                    <input type="hidden" name="barang_id[]" value="{{ $value->barang_id }}">
-                    <input type="hidden" name="qty[]" value="{{ $value->qty }}">
+                    <input type="hidden" name="id" value="{{ $value->id }}">
+                    <input type="hidden" name="barang_id" value="{{ $value->barang_id }}">
+                    <input type="hidden" name="qty" value="{{ $value->qty }}">
+                    <input type="hidden" name="hargadijual" value="{{ $value->hargadijual }}">
+
                     <td>{{$value->id}}</td>
                 <td>{{$value->barang_id}}</td>
                 <td>{{$value->nama_brg}}</td>
-                <td>{{$value->harga_jual}}</td>
+                <td>{{$value->hargadijual}}</td>
                 <td>{{$value->qty}}</td>
                 <?php 
-                $total = $value->harga_jual * $value->qty;
+                $total = $value->hargadijual * $value->qty;
                 $subtotal = $subtotal + $total;
                 ?>
 
@@ -129,6 +131,8 @@
               <input type="hidden" name="id[]" value="{{ $value->id }}">
               <input type="hidden" name="barang_id[]" value="{{ $value->barang_id }}">
               <input type="hidden" name="qty[]" value="{{ $value->qty }}">
+              <input type="hidden" name="hargadijual[]" value="{{ $value->hargadijual }}">
+
               @endforeach
         </div>
         <div class="col-md-11 text-right">

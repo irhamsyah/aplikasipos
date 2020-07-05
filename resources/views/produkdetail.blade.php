@@ -64,7 +64,7 @@
         {{-- <p>
             {{ $produk->description }}
         </p> --}}
-        <p><strong class="text-primary h4">Rp {{ $produk->harga_jual }} </strong></p>
+
         <div class="mb-5">
           <!-------FORM------->
             <form action="{{ route('keranjang.simpan',['id'=>$produk->barang_id]) }}" method="post">
@@ -74,6 +74,18 @@
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     @endauth
                 @endif
+                <p><strong class="text-primary h4">
+        <label for="reseler"> Harga Reseller</label>
+      <input type="checkbox" id="hrg" name="hargadijual" value="{{$produk->harga_jual_reseller}}">
+       Rp <label for="reseler"> {{$produk->harga_jual_reseller}}</label><br>
+      </strong></p>
+        <p><strong class="text-primary h4">
+        <label for="reseler"> Harga Eceran</label>
+
+        <input type="checkbox" id="hrg" name="hargadijual" value="{{$produk->harga_jual}}">
+        Rp <label for="eceran"> {{$produk->harga_jual}}</label>
+        </strong></p>
+
             <input type="hidden" name="barang_id" value="{{ $produk->barang_id }}">
             <small>Sisa Stok {{ $produk->jumlah_brg }}</small>
             <input type="hidden" name="jumlah_brg" value="{{ $produk->jumlah_brg }}" id="sisastok">
@@ -98,10 +110,10 @@
 
 
   <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey">
+  <!-- <footer class="w3-container w3-padding-16 w3-light-grey">
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  </footer>
+  </footer> -->
 
   <!-- End page content -->
 </div>

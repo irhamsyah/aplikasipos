@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Exports;
-
+use DB;
 use App\Models\Transaksi;
 // use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class TransaksiExport implements FromQuery
+class TransaksiExport implements FromView
 {
     /*
     /* @return \Illuminate\Support\Collection */
-    use ExpoExportable;
-    public function query()
+    // use ExpoExportable;
+    public function view(): View
     {
-        return Transaksi::query();
+        return view('export.tempexport', [
+            'transaksi' => Transaksi::all()
+        ]);
     }
 }

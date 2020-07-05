@@ -13,7 +13,7 @@ use App\Models\Reseller;
 use App\Models\Keranjang;
 use App\Models\Pembeli;
 use App\Users;
-
+use App;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Validator;
@@ -408,12 +408,13 @@ class BarangController extends Controller
     {
         $keranjangs = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
-        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
+        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','keranjangs.hargadijual')
         ->get();
         return view('keranjang',compact('keranjangs'));
 
     }
-    public function keranjang(Request $request){
+    public function keranjang(Request $request)
+    {
         // dd($request);
         //Ngecek Jika jumlah persediaan lebih kecil dari item dijual
        if ($request->input('qty')>$request->input('jumlah_brg')) 
@@ -424,7 +425,8 @@ class BarangController extends Controller
         }
         else
         {
-            $data = $request->only('barang_id','qty');
+            $data = $request->only('barang_id','qty','hargadijual');
+
             $cari=Keranjang::where('barang_id','=',trim($request->barang_id))->get();
             $test=0;
             foreach($cari as $value)
@@ -468,7 +470,7 @@ class BarangController extends Controller
         // dd($request);
         $keranjang = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
-        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
+        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','keranjangs.hargadijual')
         ->paginate();
         /*****Cara Converting String to number***/
         // <?php
@@ -522,6 +524,8 @@ class BarangController extends Controller
                 $keranjang = Keranjang::findOrFail($id);
                 $keranjang->qty = $request->qty[$index];
                 $keranjang->barang_id = $request->barang_id[$index];
+                $keranjang->hargadjual = $request->hargadijual[$index];
+
                 /***PROSES CARI BARANG UNTUK PROSES UPDATE DATA BARANG DAN INSERT TABEL TRANSAKSI***/
                 $jmlbrg=Barang::where('barang_id',$request->barang_id[$index])->get();
                 $jumlah_brg=0;$nama_brg="";$harga_jual=0;
@@ -613,12 +617,13 @@ class BarangController extends Controller
         ->join('barang','transaksi.barang_id','=','barang.barang_id')
         ->join('satuan','barang.satuan','=','satuan.id')
         ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan')
-        ->where('pembelis.nota','MJFF/0001-020720')
+        ->where('pembelis.nota','MJFF/0001-030720')
         ->get();
 
+        $pdf = App::make('snappy.pdf.wrapper');
         $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
-
-        return $pdf->stream('fakturrpt.pdf');
+        return $pdf->inline();
+        // return $pdf->download('fakturrpt.pdf');
 
         // return $pdf->inline('fakturrpt.pdf');
 

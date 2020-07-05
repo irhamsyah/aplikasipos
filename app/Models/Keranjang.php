@@ -11,7 +11,7 @@ class Keranjang extends Model
     // protected $primaryKey='barang_id';
     // public $incrementing = false;
     // protected $keyType = 'string';
-    protected $fillable = ['barang_id', 'qty'];
+    protected $fillable = ['barang_id', 'qty','hargadijual'];
 
     public function barang(){
         return $this->belongsTo('App\Models\Barang');

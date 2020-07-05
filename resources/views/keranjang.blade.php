@@ -80,7 +80,7 @@
                         <td class="product-name">
                             <h2 class="h5 text-black">{{ $keranjangs->nama_brg }}</h2>
                         </td>
-                        <td>Rp. {{ number_format($keranjangs->harga_jual,2,',','.') }} </td>
+                        <td>Rp. {{ number_format($keranjangs->hargadijual,2,',','.') }} </td>
                         <td>
                             <div class="input-group mb-3" style="max-width: 120px;">
                             <div class="input-group-prepend">
@@ -95,7 +95,7 @@
 
                         </td>
                         <?php
-                            $total = $keranjangs->harga_jual * $keranjangs->qty;
+                            $total = $keranjangs->hargadijual * $keranjangs->qty;
                             $subtotal = $subtotal + $total;
                         ?>
                         <td>Rp. {{ number_format($total,2,',','.') }}</td>
@@ -147,10 +147,10 @@
 </div>
 
   <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey">
+  <!-- <footer class="w3-container w3-padding-16 w3-light-grey">
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  </footer>
+  </footer> -->
 
   <!-- End page content -->
 </div>
