@@ -97,17 +97,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <h5>Dashboard</h5>
   </div>
   <div class="w3-bar-block">
-    {{-- <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a> --}}
-    <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
+  <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
   <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
     <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
-  <a href="{{route('inputdatareseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Input Reseller</a>
-  <a href="{{route('listreseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  List Reseller</a>
-  <a href="{{route('inputransaksireseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Input Transaksi Reseller</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
-  </div>
+  <a href="{{route('lihatjatuhtempo')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Laporan Jatuh Tempo</a>
+  <a href="{{route('lihatsalesreport')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  Laporan Sales</a>
 </nav>
 {{-- Batas Side Bar Menu --}}
 

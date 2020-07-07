@@ -14,7 +14,7 @@
               <th>Nama Barang</th>
               <th>Harag Barang</th>
               <th>Harga Jual Barang</th>
-              <th>Harga Reseller</th>
+              {{-- <th>Harga Reseller</th> --}}
               <th>Persedian Barang</th>
               <th>Opsi</th>
           </tr>
@@ -27,7 +27,7 @@
             <td>{{$value->nama_brg}}</td>
             <td>{{$value->harga_brg}}</td>
             <td>{{$value->harga_jual}}</td>
-            <td>{{$value->harga_jual_reseller}}</td>
+            {{-- <td>{{$value->harga_jual_reseller}}</td> --}}
             <td>{{$value->jumlah_brg}}</td>
             <td>
               {!! Form::model($value, ['route' => ['hapusbarang', $value->barang_id], 'method' => 'delete', 'class' => 'form-inline'] ) !!}

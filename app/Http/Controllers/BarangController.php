@@ -12,8 +12,10 @@ use App\Models\Transaksi;
 use App\Models\Reseller;
 use App\Models\Keranjang;
 use App\Models\Pembeli;
-use App\Users;
+use App\Models\Suratjalan;
 
+use App\Users;
+use App;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Validator;
@@ -91,7 +93,7 @@ class BarangController extends Controller
             'nama_brg' => 'required',
             'harga_brg'=>'required',
             'harga_jual'=>'required',
-            'harga_jual_reseller'=>'required',
+            // 'harga_jual_reseller'=>'required',
             'satuan',
             'isi_persatuan',
             'jumlah_brg',
@@ -101,7 +103,9 @@ class BarangController extends Controller
         ]);
         
         if (!empty($request->barang_id)){
-            $data = $request->only('barang_id', 'nama_brg','harga_brg','harga_jual','harga_jual_reseller','satuan','isi_persatuan','jumlah_brg','photo');
+            // $data = $request->only('barang_id', 'nama_brg','harga_brg','harga_jual','harga_jual_reseller','satuan','isi_persatuan','jumlah_brg','photo');
+            $data = $request->only('barang_id', 'nama_brg','harga_brg','harga_jual','satuan','isi_persatuan','jumlah_brg','photo');
+
         }
         // else{
         // $data = $request->only('productandalus_id', 'namaproduk','jenispenerbangan','lama','photo','rundown','regidr');
@@ -146,12 +150,14 @@ class BarangController extends Controller
                 'nama_brg' => 'required',
                 'harga_brg'=>'required',
                 'harga_jual'=>'required',
-                'harga_jual_reseller'=>'required',
+                // 'harga_jual_reseller'=>'required',
                 'satuan',
                 'isi_persatuan',
                 'jumlah_brg'
             ]);
-        $data = $request->only('barang_id','nama_brg','harga_brg','harga_jual','harga_jual_reseller','satuan','isi_persatuan','jumlah_brg');
+        // $data = $request->only('barang_id','nama_brg','harga_brg','harga_jual','harga_jual_reseller','satuan','isi_persatuan','jumlah_brg');
+        $data = $request->only('barang_id','nama_brg','harga_brg','harga_jual','satuan','isi_persatuan','jumlah_brg');
+
         //Ngecek Jika Perubahan Pada File Photo
         if ($request->hasFile('photo')) {
             $file=$request->file('photo');
@@ -413,7 +419,8 @@ class BarangController extends Controller
         return view('keranjang',compact('keranjangs'));
 
     }
-    public function keranjang(Request $request){
+    public function keranjangsimpan(Request $request)
+    {
         // dd($request);
         //Ngecek Jika jumlah persediaan lebih kecil dari item dijual
        if ($request->input('qty')>$request->input('jumlah_brg')) 
@@ -425,6 +432,7 @@ class BarangController extends Controller
         else
         {
             $data = $request->only('barang_id','qty');
+
             $cari=Keranjang::where('barang_id','=',trim($request->barang_id))->get();
             $test=0;
             foreach($cari as $value)
@@ -470,6 +478,11 @@ class BarangController extends Controller
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
         ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
         ->paginate();
+        $simpandata = DB::table('keranjangs')
+        ->join('barang','keranjangs.barang_id','=','barang.barang_id')
+        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
+        ->get();
+
         /*****Cara Converting String to number***/
         // <?php
         //     $variable=999;
@@ -490,7 +503,9 @@ class BarangController extends Controller
         }
         $data = [
             'keranjang' => $keranjang,
-            'carinota'  => $carinota
+            'carinota'  => $carinota,
+            'simpandata'  => $simpandata,
+
         ];
         return view('formcheckout', $data);
         // return view('formcheckout', compact('keranjang'));
@@ -513,6 +528,7 @@ class BarangController extends Controller
                 'nama' => 'required',
                 'alamat'=>'required',
                 'tgl_trans',
+                'discount',
                 'jangkawaktu'
             ]);
             $data=$request->only('nota','nama','alamat','tgl_trans');
@@ -522,17 +538,17 @@ class BarangController extends Controller
                 $keranjang = Keranjang::findOrFail($id);
                 $keranjang->qty = $request->qty[$index];
                 $keranjang->barang_id = $request->barang_id[$index];
+                // $keranjang->harga_jual = $request->harga_jual[$index];
+
                 /***PROSES CARI BARANG UNTUK PROSES UPDATE DATA BARANG DAN INSERT TABEL TRANSAKSI***/
-                $jmlbrg=Barang::where('barang_id',$request->barang_id[$index])->get();
+                $jmlbrg=Barang::find($request->barang_id[$index]);
                 $jumlah_brg=0;$nama_brg="";$harga_jual=0;
-                foreach($jmlbrg as $value)
-                {
-                    $jumlah_brg=$value->jumlah_brg;
-                    $nama_brg=$value->nama_brg;
-                    $harga_jual=$value->harga_jual;
-                }
+                    $jumlah_brg=$jmlbrg->jumlah_brg;
+                    $nama_brg=$jmlbrg->nama_brg;
+                    $harga_jual=$jmlbrg->harga_jual;
                 $totaljmlhbrg=$jumlah_brg-$request->qty[$index];
-                $totaltransaksi=$request->qty[$index]*$harga_jual;
+                /*Hitung transa*/
+                $totaltransaksi = $request->qty[$index] * ($harga_jual - ($harga_jual * $request->discount/100));
                 /**UPDATE JUMLAH BARANG****/
                 $barang2 = Barang::where('barang_id',$request->barang_id[$index])
                 ->update(['jumlah_brg'=>$totaljmlhbrg]);
@@ -543,12 +559,13 @@ class BarangController extends Controller
                 $transaksi->jumlah_transaksi=$totaltransaksi;
                 $transaksi->jumlah_item_trans=$request->qty[$index];
                 $transaksi->tgl_trans=$request->tgl_trans;
+                $transaksi->discount=$request->discount;
                 $transaksi->nota=$request->nota;
                 $transaksi->save();
 
                 $index++;
             }
-            /*Penjumlahan tanggal untuk mendapatkan data setelah di jumlah jangka waktu*/
+            /*Penjumlahan tanggal untuk mendapatkan TG JT setelah di jumlah jangka waktu*/
             $tgltrans=strtotime($request->input('tgl_trans'));
             if(!empty($request->jangkawaktu)){
                 $data['tgl_jt_bayar']= date('Y-m-d', strtotime('+'.$request->jangkawaktu.' days', $tgltrans));
@@ -559,19 +576,51 @@ class BarangController extends Controller
             Pembeli::create($data);
             DB::table('keranjangs')->delete();
 
-                /***Cetak Faktur***/
+            /**************Cetak Faktur*****************/
 
             $faktur = DB::table('pembelis')
             ->join('transaksi','pembelis.nota','=','transaksi.nota')
             ->join('barang','transaksi.barang_id','=','barang.barang_id')
             ->join('satuan','barang.satuan','=','satuan.id')
-            ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan')
+            ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.jumlah_transaksi','transaksi.jumlah_item_trans','transaksi.tgl_trans','transaksi.discount','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan','barang.harga_jual','barang.isi_persatuan')
             ->where('pembelis.nota',$request->nota)
             ->get();
-
-            $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
-            return $pdf->stream('fakturrpt.pdf');
-            // return $pdf->inline('fakturrpt.pdf');
+            /**********Hapus data Suratjalan */
+            DB::table('suratjalans')->delete();
+    
+            for($i=0;$i<count($faktur);$i++)
+            {
+                $suratjln=new Suratjalan;
+    
+                $suratjln->barang_id=$faktur[$i]->barang_id;
+                $suratjln->nama_brg=$faktur[$i]->nama_brg;
+                $suratjln->nama_brg=$faktur[$i]->nama_brg;
+                $suratjln->qty=$faktur[$i]->jumlah_item_trans;
+                $suratjln->isi_persatuan=$faktur[$i]->isi_persatuan;
+                $suratjln->nota=$faktur[$i]->nota;
+                $suratjln->save();
+            }
+            //Buat Isi data barang yang kosong
+            $barangnull=DB::table('barang')
+            ->leftjoin('transaksi','barang.barang_id','=','transaksi.barang_id')
+            ->select('barang.barang_id', 'barang.nama_brg')
+            ->whereNull('transaksi.barang_id')
+            ->get();
+            for($i=0;$i<count($barangnull);$i++)
+            {
+                $suratjln=new Suratjalan;
+                $suratjln->barang_id=$barangnull[$i]->barang_id;
+                $suratjln->nama_brg=$barangnull[$i]->nama_brg;
+                $suratjln->save();
+            }
+            $suratjalan=Suratjalan::all();
+            
+            // $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
+            // return $pdf->stream('fakturrpt.pdf');
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
+            return $pdf->inline();
+    
         }
 
     }
@@ -612,13 +661,42 @@ class BarangController extends Controller
         ->join('transaksi','pembelis.nota','=','transaksi.nota')
         ->join('barang','transaksi.barang_id','=','barang.barang_id')
         ->join('satuan','barang.satuan','=','satuan.id')
-        ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan')
-        ->where('pembelis.nota','MJFF/0001-020720')
+        ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.jumlah_transaksi','transaksi.jumlah_item_trans','transaksi.tgl_trans','transaksi.discount','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan','barang.harga_jual','barang.isi_persatuan')
+        ->where('pembelis.nota','MJFF/0002-050720')
         ->get();
 
-        $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
+        DB::table('suratjalans')->delete();
+        for($i=0;$i<count($faktur);$i++)
+        {
+            $suratjln=new Suratjalan;
 
-        return $pdf->stream('fakturrpt.pdf');
+            $suratjln->barang_id=$faktur[$i]->barang_id;
+            $suratjln->nama_brg=$faktur[$i]->nama_brg;
+            $suratjln->nama_brg=$faktur[$i]->nama_brg;
+            $suratjln->qty=$faktur[$i]->jumlah_item_trans;
+            $suratjln->isi_persatuan=$faktur[$i]->isi_persatuan;
+            $suratjln->nota=$faktur[$i]->nota;
+            $suratjln->save();
+        }
+        //Buat Isi data barang yang kosong
+        $barangnull=DB::table('barang')
+        ->leftjoin('transaksi','barang.barang_id','=','transaksi.barang_id')
+        ->select('barang.barang_id', 'barang.nama_brg')
+        ->whereNull('transaksi.barang_id')
+        ->get();
+        for($i=0;$i<count($barangnull);$i++)
+        {
+            $suratjln=new Suratjalan;
+            $suratjln->barang_id=$barangnull[$i]->barang_id;
+            $suratjln->nama_brg=$barangnull[$i]->nama_brg;
+            $suratjln->save();
+        }
+        $suratjalan=Suratjalan::all();
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
+        return $pdf->inline();
+        // return $pdf->download('fakturrpt.pdf');
 
         // return $pdf->inline('fakturrpt.pdf');
 

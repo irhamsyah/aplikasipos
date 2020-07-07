@@ -18,8 +18,8 @@ class CreatePembelisTable extends Migration
             $table->string('nota',30)->unique();
             $table->string('nama',75);
             $table->longText('alamat');
-            $table->date('tgl_trans');
-            $table->date('tgl_jt_bayar');
+            $table->date('tgl_trans')->nullable();
+            $table->date('tgl_jt_bayar')->nullable();
             $table->timestamps();
         });
     }

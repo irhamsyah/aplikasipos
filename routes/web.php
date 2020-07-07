@@ -210,7 +210,7 @@ Route::post('keranjang/{id}',
 [
     'middleware'=>'auth',
     'as'=>'keranjang.simpan',
-    'uses'=>'BarangController@keranjang'
+    'uses'=>'BarangController@keranjangsimpan'
 ]);
 
 Route::post('keranjangupdate',

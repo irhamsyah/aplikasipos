@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-25">
                 {!!Form::label('hargareseller','Harga Reseller',['class'=>'awesome'])!!}
             </div>
@@ -92,7 +92,7 @@
                     <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-25">
                 {!!Form::label('kodesatuan','Satuan Barang',['class'=>'awesome'])!!}

@@ -13,9 +13,9 @@
             {{session()->get('message')}}
         </div>
         @endif
-        {{-- @if(isset($lama))
+        <!-- {{-- @if(isset($lama))
                 {{dd($lama)}};
-        @endif --}}
+        @endif --}} -->
     {!!Form::open(['route'=>'cari.jatuh.tempo','method'=>'post','files'=>true,'enctype'=>'multipart/form-data']) !!}
     <div class="row">
         <div style="margin-left: 15px">
@@ -62,6 +62,7 @@
                     <th>Nota Pembelian</th>
                     <th>Nama Pemebeli</th>
                     <th>Alamat</th>
+                    <th>Jatuh Tempo</th>
                     <th>Total Item</th>
                     <th>Jumlah Transaksi</th>
 
@@ -73,6 +74,7 @@
                 <td>{{$value->nota}}</td>
                 <td>{{$value->nama}}</td>
                 <td>{{$value->alamat}}</td>
+                <td>{{date('d-m-Y',strtotime($value->tgl_jt_bayar))}}</td>
                 <td>{{$value->jumlah_item_trans}}</td>
                 <td>{{number_format($value->jumlah_transaksi,2,',','.')}}</td>
                 </tr>

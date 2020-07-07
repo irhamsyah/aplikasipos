@@ -76,6 +76,19 @@
         </div>
         <div class="row">
             <div class="col-25">
+                {!!Form::label('disc','Discount',['class'=>'awesome'])!!}
+            </div>
+            <div class="col-75">
+                <div class="inputWithIcon">
+                    <input name="discount" pattern="^\d*(\.\d{0,2})?$" />                    
+                    <span> %</span>
+            </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-25">
                 {!!Form::label('interval','Jangka Waktu',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
@@ -106,10 +119,12 @@
                 <?php $subtotal=0; ?>
                 @foreach($keranjang as $value)
                 <tr>
-                    <input type="hidden" name="id[]" value="{{ $value->id }}">
-                    <input type="hidden" name="barang_id[]" value="{{ $value->barang_id }}">
-                    <input type="hidden" name="qty[]" value="{{ $value->qty }}">
-                    <td>{{$value->id}}</td>
+                    <input type="hidden" name="id" value="{{ $value->id }}">
+                    <input type="hidden" name="barang_id" value="{{ $value->barang_id }}">
+                    <input type="hidden" name="qty" value="{{ $value->qty }}">
+                    <input type="hidden" name="harga_jual" value="{{ $value->harga_jual }}">
+
+                <td>{{$value->id}}</td>
                 <td>{{$value->barang_id}}</td>
                 <td>{{$value->nama_brg}}</td>
                 <td>{{$value->harga_jual}}</td>
@@ -125,21 +140,26 @@
                 @endforeach
             </table>
               {{$keranjang->links()}}
-              @foreach($keranjang as $value)
+              @foreach($simpandata as $value)
               <input type="hidden" name="id[]" value="{{ $value->id }}">
               <input type="hidden" name="barang_id[]" value="{{ $value->barang_id }}">
               <input type="hidden" name="qty[]" value="{{ $value->qty }}">
+              <input type="hidden" name="harga_jual[]" value="{{ $value->harga_jual }}">
+
               @endforeach
         </div>
         <div class="col-md-11 text-right">
             <strong class="text-black">Rp. {{ number_format($subtotal,2,',','.') }}</strong>
-            </div>
+        </div>
 
 
         <!--------------->
+        
         <div class="row">
                     {!! Form::submit('Simpan',['class'=>'tbl-simpan']) !!}           
                     <a href="{{route('index')}}" class="klastomboledit">Belanja Lagi</a>
+                    <a href="{{route('keranjang')}}" class="klastomboledit">Update Keranjang</a>
+
         </div>
     {!!Form::close()!!}
 
