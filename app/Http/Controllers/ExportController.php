@@ -88,16 +88,9 @@ class ExportController extends Controller
     }
     public function export(Request $request) 
     {
-<<<<<<< HEAD
         // dd($request);
         return (new TransaksiExport)->forDate($request->tgl1,$request->tgl2)->download('transaksi.xlsx');
 
-=======
-        return Excel::download(new TransaksiExport, 'transaksi.xlsx');
-        return redirect()->route('index');
-
-        // return (new TransaksiExport)->download('transaksi.xlsx');
->>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
 
     }
 
