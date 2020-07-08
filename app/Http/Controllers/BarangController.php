@@ -12,8 +12,11 @@ use App\Models\Transaksi;
 use App\Models\Reseller;
 use App\Models\Keranjang;
 use App\Models\Pembeli;
+<<<<<<< HEAD
 use App\Models\Suratjalan;
 
+=======
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
 use App\Users;
 use App;
 use Illuminate\Support\Facades\DB;
@@ -414,12 +417,16 @@ class BarangController extends Controller
     {
         $keranjangs = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
-        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
+        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','keranjangs.hargadijual')
         ->get();
         return view('keranjang',compact('keranjangs'));
 
     }
+<<<<<<< HEAD
     public function keranjangsimpan(Request $request)
+=======
+    public function keranjang(Request $request)
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
     {
         // dd($request);
         //Ngecek Jika jumlah persediaan lebih kecil dari item dijual
@@ -431,7 +438,11 @@ class BarangController extends Controller
         }
         else
         {
+<<<<<<< HEAD
             $data = $request->only('barang_id','qty');
+=======
+            $data = $request->only('barang_id','qty','hargadijual');
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
 
             $cari=Keranjang::where('barang_id','=',trim($request->barang_id))->get();
             $test=0;
@@ -476,7 +487,7 @@ class BarangController extends Controller
         // dd($request);
         $keranjang = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
-        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
+        ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','keranjangs.hargadijual')
         ->paginate();
         $simpandata = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
@@ -538,7 +549,11 @@ class BarangController extends Controller
                 $keranjang = Keranjang::findOrFail($id);
                 $keranjang->qty = $request->qty[$index];
                 $keranjang->barang_id = $request->barang_id[$index];
+<<<<<<< HEAD
                 // $keranjang->harga_jual = $request->harga_jual[$index];
+=======
+                $keranjang->hargadjual = $request->hargadijual[$index];
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
 
                 /***PROSES CARI BARANG UNTUK PROSES UPDATE DATA BARANG DAN INSERT TABEL TRANSAKSI***/
                 $jmlbrg=Barang::find($request->barang_id[$index]);
@@ -662,6 +677,7 @@ class BarangController extends Controller
         ->join('transaksi','pembelis.nota','=','transaksi.nota')
         ->join('barang','transaksi.barang_id','=','barang.barang_id')
         ->join('satuan','barang.satuan','=','satuan.id')
+<<<<<<< HEAD
         ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.jumlah_transaksi','transaksi.jumlah_item_trans','transaksi.tgl_trans','transaksi.discount','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan','barang.harga_jual','barang.isi_persatuan')
         ->where('pembelis.nota','MJFF/0002-050720')
         ->get();
@@ -696,6 +712,14 @@ class BarangController extends Controller
 
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
+=======
+        ->select('transaksi.*','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan')
+        ->where('pembelis.nota','MJFF/0001-030720')
+        ->get();
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
         return $pdf->inline();
         // return $pdf->download('fakturrpt.pdf');
 

@@ -120,15 +120,21 @@
                     <input type="hidden" name="id" value="{{ $value->id }}">
                     <input type="hidden" name="barang_id" value="{{ $value->barang_id }}">
                     <input type="hidden" name="qty" value="{{ $value->qty }}">
+<<<<<<< HEAD
                     <input type="hidden" name="harga_jual" value="{{ $value->harga_jual }}">
 
                 <td>{{$value->id}}</td>
+=======
+                    <input type="hidden" name="hargadijual" value="{{ $value->hargadijual }}">
+
+                    <td>{{$value->id}}</td>
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
                 <td>{{$value->barang_id}}</td>
                 <td>{{$value->nama_brg}}</td>
-                <td>{{$value->harga_jual}}</td>
+                <td>{{$value->hargadijual}}</td>
                 <td>{{$value->qty}}</td>
                 <?php 
-                $total = $value->harga_jual * $value->qty;
+                $total = $value->hargadijual * $value->qty;
                 $subtotal = $subtotal + $total;
                 ?>
 
@@ -142,7 +148,11 @@
               <input type="hidden" name="id[]" value="{{ $value->id }}">
               <input type="hidden" name="barang_id[]" value="{{ $value->barang_id }}">
               <input type="hidden" name="qty[]" value="{{ $value->qty }}">
+<<<<<<< HEAD
               <input type="hidden" name="harga_jual[]" value="{{ $value->harga_jual }}">
+=======
+              <input type="hidden" name="hargadijual[]" value="{{ $value->hargadijual }}">
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
 
               @endforeach
         </div>
