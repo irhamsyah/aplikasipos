@@ -266,11 +266,11 @@ route::get('lihatsalesreport',
     'uses'=>'BarangController@formlihatsalesreport'
 
 ]);
-route::post('carisalesreport',
+route::post('lihatsalesreport',
 [
     'middleware'=>'auth',
     'as'=>'cari.sales.report',
-    'uses'=>'BarangController@carisalesreport'
+    'uses'=>'ExportController@export'
 
 ]);
 

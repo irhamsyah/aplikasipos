@@ -85,8 +85,6 @@
             </div>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-25">
                 {!!Form::label('interval','Jangka Waktu',['class'=>'awesome'])!!}

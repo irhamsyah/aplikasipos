@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Repor Sales!</title>
   </head>
   <body>
     <div class="container">
@@ -17,11 +17,21 @@
                 <h5 class="mt-3">All Transaction</h5>
             </div>
         </div>
+        {!!Form::open(['route'=>'cari.sales.report','method'=>'post','files'=>true,'enctype'=>'multipart/form-data']) !!}
+
         <div class="row">
-            <div class="com">
-            <a href="route('')" class="btn btn-sm btn-primary float-right mt-3">Export Excel</a>
-            </div>
+          <input type="date" name="tgl1">
+          <input type="date" name="tgl2">
         </div>
+        <br>
+        <div class="row">
+
+          <div class="com">
+            <button type="submit" class="btn btn-primary btn-sm">Export Excel</button>
+          </div>
+      </div>
+
+        {!!Form::close()!!}
         <div class="row">
             <div class="col">
                 <table class="table table-bordered mt-3">

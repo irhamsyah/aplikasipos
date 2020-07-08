@@ -5,6 +5,9 @@ use App\Exports\TransaksiExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use App\Models\Transaksi;
+
 
 class ExportController extends Controller
 {
@@ -83,10 +86,11 @@ class ExportController extends Controller
     {
         //
     }
-    public function export() 
+    public function export(Request $request) 
     {
-        // return Excel::download(new TransaksiExport, 'transaksi.xlsx');
-        return (new TransaksiExport)->download('transaksi.xlsx');
+        // dd($request);
+        return (new TransaksiExport)->forDate($request->tgl1,$request->tgl2)->download('transaksi.xlsx');
+
 
     }
 

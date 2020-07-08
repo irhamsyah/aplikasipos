@@ -650,10 +650,11 @@ class BarangController extends Controller
         $transaksi=Transaksi::all();
         return view('formsalesreport',compact('transaksi'));
     }
-    public function carisalesreport()
+    public function carisalesreport(Request $request)
     {
-        $transaksi=Transaksi::all();
-        return view('formsalesreport',compact('transaksi'));
+        dd($request);
+        // $transaksi=Transaksi::all();
+        // return view('formsalesreport',compact('transaksi'));
     }
     public function tesreport()
     {

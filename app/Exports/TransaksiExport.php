@@ -11,9 +11,20 @@ class TransaksiExport implements FromQuery
 {
     /*
     /* @return \Illuminate\Support\Collection */
-    use ExpoExportable;
+    use Exportable;
+    public function fordate($tgl1, $tgl2)
+    {
+        $this->tgl1 = $tgl1;
+        $this->tgl2 = $tgl2;
+
+        return $this;
+    }
+
     public function query()
     {
-        return Transaksi::query();
+        return Transaksi::query()->whereDate('tgl_trans','>=', $this->tgl1)
+                               ->whereDate('tgl_trans','<=', $this->tgl2);
+
     }
+
 }
