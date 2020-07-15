@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Exports;
-use DB;
+
 use App\Models\Transaksi;
 use App\Models\Barang;
 use Illuminate\Support\Facades\DB;
+
+// use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
 
 // use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
@@ -14,10 +18,6 @@ class TransaksiExport implements FromView
 {
     /*
     /* @return \Illuminate\Support\Collection */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1800e56eac47cfbd93d94f4e54b60b71ca056440
     use Exportable;
     public function fordate($tgl1, $tgl2)
     {
@@ -29,7 +29,6 @@ class TransaksiExport implements FromView
 
     public function query()
     {
-<<<<<<< HEAD
         return DB::table('barang')
         ->join('transaksi','barang.barang_id','=','transaksi.barang_id')
         ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.tgl_trans','barang.harga_brg','barang.harga_jual','transaksi.discount',DB::raw('SUM(transaksi.jumlah_transaksi) as jumlah_transaksi'),DB::raw('SUM(transaksi.jumlah_item_trans) as jumlah_item_trans'))
@@ -38,22 +37,7 @@ class TransaksiExport implements FromView
         ->groupBy('transaksi.barang_id','transaksi.nama_brg','transaksi.tgl_trans','transaksi.discount','barang.harga_brg','barang.harga_jual')
         ->orderBy('transaksi.tgl_trans');
 
-        // return Transaksi::query()->whereDate('tgl_trans','>=', $this->tgl1)
-        //                        ->whereDate('tgl_trans','<=', $this->tgl2);
-
-=======
-        return Transaksi::query()->whereDate('tgl_trans','>=', $this->tgl1)
-                               ->whereDate('tgl_trans','<=', $this->tgl2);
-
-=======
     // use ExpoExportable;
-    public function view(): View
-    {
-        return view('export.tempexport', [
-            'transaksi' => Transaksi::all()
-        ]);
->>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
->>>>>>> 1800e56eac47cfbd93d94f4e54b60b71ca056440
     }
 
 }
