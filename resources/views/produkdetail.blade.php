@@ -33,9 +33,23 @@
                     @endauth
                 @endif
                 <p><strong class="text-primary h4">
+<<<<<<< HEAD
         <label for="reseler"> Harga :</label>
        Rp <label for="reseler"> {{$produk->harga_jual}}</label><br>
       </strong></p>
+=======
+        <label for="reseler"> Harga Reseller</label>
+      <input type="checkbox" id="hrg" name="hargadijual" value="{{$produk->harga_jual_reseller}}">
+       Rp <label for="reseler"> {{$produk->harga_jual_reseller}}</label><br>
+      </strong></p>
+        <p><strong class="text-primary h4">
+        <label for="reseler"> Harga Eceran</label>
+
+        <input type="checkbox" id="hrg" name="hargadijual" value="{{$produk->harga_jual}}">
+        Rp <label for="eceran"> {{$produk->harga_jual}}</label>
+        </strong></p>
+
+>>>>>>> 0b86b91c7985603597d3c07406e6b0dd92b2c71a
             <input type="hidden" name="barang_id" value="{{ $produk->barang_id }}">
             <small>Sisa Stok {{ $produk->jumlah_brg }}</small>
             <input type="hidden" name="jumlah_brg" value="{{ $produk->jumlah_brg }}" id="sisastok">

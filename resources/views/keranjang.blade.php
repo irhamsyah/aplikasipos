@@ -39,7 +39,7 @@
                         <td class="product-name">
                         <h2 class="h5 text-black">{{$keranjangs->barang_id}} <br> {{ $keranjangs->nama_brg }}</h2>
                         </td>
-                        <td>Rp. {{ number_format($keranjangs->harga_jual,2,',','.') }} </td>
+                        <td>Rp. {{ number_format($keranjangs->hargadijual,2,',','.') }} </td>
                         <td>
                             <div class="input-group mb-3" style="max-width: 120px;">
                             <div class="input-group-prepend">
@@ -54,7 +54,7 @@
 
                         </td>
                         <?php
-                            $total = $keranjangs->harga_jual * $keranjangs->qty;
+                            $total = $keranjangs->hargadijual * $keranjangs->qty;
                             $subtotal = $subtotal + $total;
                         ?>
                         <td>Rp. {{ number_format($total,2,',','.') }}</td>

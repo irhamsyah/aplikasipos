@@ -242,11 +242,17 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         /***Export Data Excel***/
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+<<<<<<< HEAD
         /**Intervention image**/
         'Image' => Intervention\Image\Facades\Image::class,
         /****dom pdf**/
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
+=======
+        /****PDF******************/
+        // 'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        // 'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+>>>>>>> 1800e56eac47cfbd93d94f4e54b60b71ca056440
     ],
 
 ];

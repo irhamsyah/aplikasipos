@@ -123,7 +123,7 @@
             <div class="col-75">
                 <div class="inputWithIcon">
                     {!!Form::file('photo',['class'=>'ambilfile'])!!}
-                    <i aria-hidden="true"></i>
+                    <p class="text-danger">{{ $errors->first('image') }}</p>
                 </div>
             </div>
         </div>
