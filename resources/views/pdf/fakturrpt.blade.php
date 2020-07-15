@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>Faktur Pembelian Barang</title>
 </head>
 <style>
@@ -32,7 +32,6 @@ th, td {
   border: solid 1px;
 }
 </style>
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> -->
 <body>
     <?php 
         $nota="";
@@ -42,7 +41,7 @@ th, td {
             $nota=$faktur[0]->nota;
             $nama=$faktur[0]->nama;
             $alamat=$faktur[0]->alamat;
-        
+            $discount=$faktur[0]->discount;
     ?>
     <?php 
 
@@ -90,20 +89,28 @@ th, td {
 		return $hasil;
 	}
 
-	?>
+    ?>
     <div class="container-lg batasatas page">
+        <span>
+            <img src="{{asset('img/logofaktur.jpg')}}" alt="">   
+        <br> Mojo Frozen Food
+        </span>
+
         <h3 style="text-align: center;margin-bottom:20px ">Faktur Penjualan</h3>
         <br>
         <div><span>No Transaksi</span><span style="margin-left: 24px; margin-right: 5px">:</span> </span> <span style="margin-left: 5px">{{$nota}}</span> 
-        <span style="margin-left: 200px;">Pelanggan  </span> <span style="margin-left: 5px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{$nama}}</span>
+        <span style="margin-left: 100px;">Pelanggan  </span> <span style="margin-left: 5px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{$nama}}</span>
         </div>
-        <div><span>Tanggal </span> <span style="margin-left: 55px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{date('d-m-Y')}}</span> 
-        <span style="margin-left: 250px;">Alamat </span> <span style="margin-left:5px">:</span><span style="margin-left: 12px">{{$alamat}}</span>
+        <div><span>Tanggal </span> <span style="margin-left: 55px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{date('d-m-Y')}}</span> <br>
+        <span>Alamat </span> <span style="margin-left:60px">:</span><span style="margin-left: 12px">{{$alamat}}</span>
+            <br>
+        <span>Discount </span> <span style="margin-left:50px">:</span><span style="margin-left: 12px">{{$discount}}</span><span>%</span>
+
         </div>
         <!-- <div><span>Pelanggan  </span> <span style="margin-left: 5px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{$nama}}</span> </div> -->
         <!-- <div> <span>Alamat </span> <span style="margin-left:58px">:</span><span style="margin-left: 12px">{{$alamat}}</span> </div> -->
         @if(!is_null($faktur[0]->tgl_jt_bayar))
-        <div><span>Tanggal JT</span> <span style="margin-left: 30px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{date('d-m-Y', strtotime($faktur[0]->tgl_jt_bayar))}}</span> </div>
+        <div><span>Tanggal JT</span> <span style="margin-left: 38px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{date('d-m-Y', strtotime($faktur[0]->tgl_jt_bayar))}}</span> </div>
         @endif
         <br>
 
@@ -123,11 +130,11 @@ th, td {
                 <tr class="tabel-faktur">
                 <td class="tabel-faktur">{{$no}}</td>
                 <td class="tabel-faktur">{{$value->nama_brg}}</td>
-                <td class="tabel-faktur">{{$value->jumlah_item_trans}}</td>
+                <td class="tabel-faktur">{{$value->qty}}</td>
                 <?php 
                     $total=$total+$value->jumlah_transaksi;
                     $no++;
-                    $item=$item+$value->jumlah_item_trans;
+                    $item=$item+$value->qty;
                 ?>
                 <td class="tabel-faktur">{{number_format($value->harga_jual,2,',','.')}}</td>
                 <td class="tabel-faktur">{{number_format($value->jumlah_transaksi,2,',','.')}}</td>
@@ -139,22 +146,30 @@ th, td {
 
                 <td>Sub total</td>
                 <td>{{number_format($total,2,',','.')}}</td>
-
             </tbody>
-    
         </table>
-            <h3>
+            <h6>
                 <span>Terbilang : </span>
         <?php 
-            echo terbilang($total);
+            echo terbilang($total)." rupiah";
         ?>
-        </h3>
+        </h6>
+        <br>
+            <span>BCA :</span> <span style="margin-left: 600px"> Hormat Kami</span>  <br>
+            <br><span>IFANI PURWANDARI</span>  <br>
+            <span>0501815101</span> 
+    
     </div>
     <!----Halaman report SURAT JALAN----------->
     <div class="container-lg batasatas page">
+        <span>
+            <img src="{{asset('img/logofaktur.jpg')}}" alt="">   
+        <br> Mojo Frozen Food
+        </span>
+
         <h3 style="text-align: center;margin-bottom:20px ">Surat Jalan</h3>
 <br>
-    <div><span>Nomor Dokumen</span><span style="margin-left: 24px; margin-right: 5px">:</span> </span> <span style="margin-left: 5px">{{$nota}}</span> <span style="margin-left:300px">Tanggal </span> <span>:</span>{{date('d-m-Y')}}</div>
+    <div><span>Nomor Dokumen</span><span style="margin-left: 24px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{$nota}}</span> <span style="margin-left:130px">Tanggal </span> <span>:</span><span>{{date('d-m-Y')}}</span></div>
         <div><span>Nama Penerima</span> <span style="margin-left: 27px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{$nama}}</span> </div>
         <div><span>Alamat Penerima</span> <span style="margin-left:24px">:</span><span style="margin-left: 12px">{{$alamat}}</span> </div>
         <br>
@@ -164,18 +179,19 @@ th, td {
                     <th class="tabel-faktur">Kode Produk</th>
                     <th class="tabel-faktur">Nama Produk</th>
                     <th class="tabel-faktur">Jumlah Isi</th>
-                    <th class="tabel-faktur">Package (pack/katton)</th>
-                    <th class="tabel-faktur">Keteranga</th>
+                    <th class="tabel-faktur">Package (pack/karton)</th>
+                    <th class="tabel-faktur">Keterangan</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $total=0; ?>
+                <?php $total=0;$totalqty=0; ?>
                 @foreach($suratjalan as $value)
                 <tr class="tabel-faktur">
                     <td class="tabel-faktur">{{$value->barang_id}}</td>
                     <?php 
                     $totalisisatuan=$value->qty*$value->isi_persatuan;
                     $total=$total+$totalisisatuan;
+                    $totalqty=$totalqty+$value->qty
                     ?>
                     <td class="tabel-faktur">{{$value->nama_brg}}</td>
                     <td class="tabel-faktur">{{$totalisisatuan}}</td>
@@ -187,6 +203,8 @@ th, td {
                 <td></td>
                 <td>Total Item</td>
                 <td>{{number_format($total,2,',','.')}}</td>
+                <td>{{number_format($totalqty,2,',','.')}}</td>
+
             </tbody>
     
         </table>
@@ -196,8 +214,9 @@ th, td {
             <span>2.</span><span>Surat Jalan ini bukan pelunasan</span><br>
             <span>3.</span><span>Surat Jalan ini akan dilengkapi invoice sebagai bukti penjualan</span><br><br>
             <span>BARANG SUDAH DITERIMA DALAM KEADAAN BAIK DAN CUKUP, OELH :</span><br>
-            {{date('d-m-Y')}} <br>
-            <span>Peneriman / Pembeli</span>
+            {{date('d-m-Y')}} <br><br>
+            <span>Peneriman / Pembeli</span> <span style="margin-left:200px;">Bagian Pengiriman</span>
+
 
         </div>
     </div>

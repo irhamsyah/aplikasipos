@@ -181,6 +181,11 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         /***Export Data Ke EXCEL***/
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        /**Intervention image **/
+        Intervention\Image\ImageServiceProvider::class,
+        /***DOM PDF*/
+        Barryvdh\DomPDF\ServiceProvider::class,
+
 
     ],
 
@@ -237,6 +242,11 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         /***Export Data Excel***/
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        /**Intervention image**/
+        'Image' => Intervention\Image\Facades\Image::class,
+        /****dom pdf**/
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
     ],
 
 ];

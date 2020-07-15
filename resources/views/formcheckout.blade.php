@@ -80,13 +80,11 @@
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                    <input name="discount" pattern="^\d*(\.\d{0,2})?$" />                    
+                    <input type="number" value=0 min=0 step=0.01 name="discount">                    
                     <span> %</span>
             </div>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-25">
                 {!!Form::label('interval','Jangka Waktu',['class'=>'awesome'])!!}
@@ -99,7 +97,7 @@
                     'placeholder'=>'Jangka Waktu'
                     ))!!}
                     {{-- <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i> --}}
-                </div>
+                </div> Kalo Cash dikosongkan aja
             </div>
         </div>
 

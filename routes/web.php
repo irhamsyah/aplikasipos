@@ -27,6 +27,14 @@ Route::get('login', function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Route::get('register',
+// [
+//     'middleware'=>'web',
+//     'as'=>'register',
+//     'uses'=>'Auth\RegisterController@showRegistrationForm'
+
+// ]);
+
 Route::get('adminlogin',
 [
     'middleware'=>'auth',
@@ -240,7 +248,13 @@ Route::post('simpancheckout',
     'uses'=>'BarangController@simpancheckout'
 ]);
 
-Route::get('formcarijt',
+Route::get('simpancheckout',
+[
+    'as'=>'simpan.checkout.get',
+    'uses'=>'BarangController@keranjangcheckout'
+]);
+
+Route::get('carijatuhtempo',
 [
     'middleware'=>'auth',
     'as'=>'lihatjatuhtempo',
@@ -253,6 +267,7 @@ route::post('carijatuhtempo',
     'as'=>'cari.jatuh.tempo',
     'uses'=>'BarangController@carijatuhtempo'
 ]);
+
 route::get('report',
 [
     'as'=>'tesreport',
@@ -266,12 +281,47 @@ route::get('lihatsalesreport',
     'uses'=>'BarangController@formlihatsalesreport'
 
 ]);
-route::post('carisalesreport',
+route::post('lihatsalesreport',
 [
     'middleware'=>'auth',
     'as'=>'cari.sales.report',
-    'uses'=>'BarangController@carisalesreport'
+    'uses'=>'ExportController@export'
 
 ]);
 
 Route::get('trans/export/', 'ExportController@export');
+
+Route::get('tesday',function(){
+    /**jumlah hari bulan ini*/
+    $days1month=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
+    
+    $d=date('Y-m-d');
+    $tglawalbln = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d))); //operasi penjumlahan tanggal sebanyak 6 hari
+    
+    /**jumlah hari bulan lalu*/
+        /***tgl akhir bulan lalu*/
+        $tglakhirbln_blnlalu = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d)));
+
+    $days1monthbulanlalu=cal_days_in_month(CAL_GREGORIAN,date('m',strtotime($tglakhirbln_blnlalu)),date('Y',strtotime($tglakhirbln_blnlalu)));
+
+    $tglawaltahun = date('Y')."-01-01";
+    $tglakhirtahun = date('Y')."-12-31";
+
+    $tglawalbulan_blnlalu=date('Y-m-d', strtotime('-'.$days1monthbulanlalu.' days',strtotime($tglakhirbln_blnlalu)));
+
+    return $tglakhirtahun;
+});
+
+Route::get('resetpassword',
+[
+    'middleware'=>'auth',
+    'as'=>'reset.password',
+    'uses'=>'Auth\ResetPasswordController@bukafomreset'
+]);
+
+Route::post('simpanresetpaswd',
+[
+    'middleware'=>'auth',
+    'as'=>'reset.password.save',
+    'uses'=>'Auth\ResetPasswordController@simpanresetpasswd'
+]);

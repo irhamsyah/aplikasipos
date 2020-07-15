@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Repor Sales!</title>
   </head>
   <body>
     <div class="container">
@@ -17,11 +17,21 @@
                 <h5 class="mt-3">All Transaction</h5>
             </div>
         </div>
+        {!!Form::open(['route'=>'cari.sales.report','method'=>'post','files'=>true,'enctype'=>'multipart/form-data']) !!}
+
         <div class="row">
-            <div class="com">
-            <a href="route('')" class="btn btn-sm btn-primary float-right mt-3">Export Excel</a>
-            </div>
+          <input type="date" name="tgl1">
+          <input type="date" name="tgl2">
         </div>
+        <br>
+        <div class="row">
+
+          <div class="com">
+            <button type="submit" class="btn btn-primary btn-sm">Export Excel</button>
+          </div>
+      </div>
+
+        {!!Form::close()!!}
         <div class="row">
             <div class="col">
                 <table class="table table-bordered mt-3">
@@ -30,6 +40,9 @@
                         <th scope="col">No</th>
                         <th scope="col">Kode Produk</th>
                         <th scope="col">Nama Produk</th>
+                        <th scope="col">Harga Pokok Pokok</th>
+                        <th scope="col">Harga Jual</th>
+                        <th scope="col">Discount</th>
                         <th scope="col">Kuantitas</th>
                         <th scope="col">Transaksi </th>
                         <th scope="col">Tgl Transaksi</th>
@@ -43,6 +56,9 @@
                       <th scope="row">{{$no}}</th>
                       <td>{{$value->barang_id}}</td>
                       <td>{{$value->nama_brg}}</td>
+                      <td>{{$value->harga_brg}}</td>
+                      <td>{{$value->harga_jual}}</td>
+                      <td>{{$value->discount}}</td>
                       <td>{{$value->jumlah_item_trans}}</td>
                       <td>{{$value->jumlah_transaksi}}</td>
                       <td>{{$value->tgl_trans}}</td>

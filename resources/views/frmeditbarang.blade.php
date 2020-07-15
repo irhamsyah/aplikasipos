@@ -78,21 +78,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-25">
-                {!!Form::label('hargareseller','Harga Reseller',['class'=>'awesome'])!!}
-            </div>
-            <div class="col-75">
-                <div class="inputWithIcon">
-                    {!!Form::text('harga_jual_reseller',$hasil->harga_jual_reseller,
-                    array('required',
-                    'id'=>'hargareseller',
-                    'placeholder'=>'Harga Reseller'
-                    ))!!}
-                    <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
-                </div>
-            </div>
-        </div> --}}
         <div class="row">
             <div class="col-25">
                 {!!Form::label('kodesatuan','Satuan Barang',['class'=>'awesome'])!!}

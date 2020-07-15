@@ -13,6 +13,7 @@ use App\Models\Reseller;
 use App\Models\Keranjang;
 use App\Models\Pembeli;
 use App\Models\Suratjalan;
+use App\Models\Fakturjual;
 
 use App\Users;
 use App;
@@ -38,20 +39,57 @@ class BarangController extends Controller
     }
     public function index()
     {
-        //menampilkan data produk yang dijoin dengan table kategori
-        //kemudian dikasih paginasi 9 data per halaman nya
-        // $kat = DB::table('categories')
-        //         ->join('products','products.categories_id','=','categories.id')
-        //         ->select(DB::raw('count(products.categories_id) as jumlah, categories.*'))
-        //         ->groupBy('categories.id')
-        //         ->get();
-        // $data = array(
-        //     'produks' => Product::paginate(9),
-        //     'categories' => $kat
-        // );
-        // return view('user.produk',$data);
+
+        $transharian=DB::table('transaksi')
+        ->select('tgl_trans', DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans', date('Y-m-d'))
+        ->groupBy('tgl_trans')
+        ->get();
+        /***Mencari tgl awal dan akhir bulan **/
+        $days1month=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
+    
+        $d=date('Y-m-d');
+        /***tgl akhir bulan kemaren**/
+        $tglawal = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d))); 
+                
+        /***tgl akhir bulan ini**/
+        $akhirbulan=date('Y-m-d', strtotime('+'.$days1month.' days',strtotime($tglawal)));
+    
+        /****/
+        $transbulanini=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>',$tglawal)
+        ->where('tgl_trans','<=',$akhirbulan)
+        ->get();
+
+        /***MENCARI TGL AWAL BULAN DAN AKHIR BULAN DARI BULAN LALU***/
+        /***tgl akhir bulan lalu*/
+        $tglakhirbln_blnlalu = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d)));
+
+        $days1monthbulanlalu=cal_days_in_month(CAL_GREGORIAN,date('m',strtotime($tglakhirbln_blnlalu)),date('Y',strtotime($tglakhirbln_blnlalu)));
+
+        $tglawalbulan_blnlalu=date('Y-m-d', strtotime('-'.$days1monthbulanlalu.' days',strtotime($tglakhirbln_blnlalu)));
+
+        $transbulanlalu=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>',$tglawalbulan_blnlalu)
+        ->where('tgl_trans','<=',$tglakhirbln_blnlalu)
+        ->get();
+        /*********************************/
+
+        /***************Sales 1 tahun*******************/
+        $tglawaltahun = date('Y')."-01-01";
+        $tglakhirtahun = date('Y')."-12-31";
+    
+        $transsatutahun=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>=',$tglawaltahun)
+        ->where('tgl_trans','<=',$tglakhirtahun)
+        ->get();
+
+        /************************************************/
         $produks = Barang::paginate(8);
-        return view('getting',compact('produks'));
+        return view('getting',['produks'=>$produks,'transharian'=>$transharian,'transbulanini'=>$transbulanini,'transbulanlalu'=>$transbulanlalu,'transsatutahun'=>$transsatutahun]);
     }
 
     public function detail($id)
@@ -70,9 +108,57 @@ class BarangController extends Controller
         {
             // return view('getting',array('request'=>$req));
             // dd($req);
+            $transharian=DB::table('transaksi')
+            ->select('tgl_trans', DB::raw('SUM(jumlah_transaksi) as total_sales'))
+            ->where('tgl_trans', date('Y-m-d'))
+            ->groupBy('tgl_trans')
+            ->get();
+            /***Mencari tgl awal dan akhir bulan **/
+            $days1month=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
+        
+            $d=date('Y-m-d');
+            /***tgl akhir bulan kemaren**/
+            $tglawal = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d))); 
+                    
+            /***tgl akhir bulan ini**/
+            $akhirbulan=date('Y-m-d', strtotime('+'.$days1month.' days',strtotime($tglawal)));
+        
+            /****/
+            $transbulanini=DB::table('transaksi')
+            ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+            ->where('tgl_trans','>',$tglawal)
+            ->where('tgl_trans','<=',$akhirbulan)
+            ->get();
+    
+            /***MENCARI TGL AWAL BULAN DAN AKHIR BULAN DARI BULAN LALU***/
+            /***tgl akhir bulan lalu*/
+            $tglakhirbln_blnlalu = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d)));
+    
+            $days1monthbulanlalu=cal_days_in_month(CAL_GREGORIAN,date('m',strtotime($tglakhirbln_blnlalu)),date('Y',strtotime($tglakhirbln_blnlalu)));
+    
+            $tglawalbulan_blnlalu=date('Y-m-d', strtotime('-'.$days1monthbulanlalu.' days',strtotime($tglakhirbln_blnlalu)));
+    
+            $transbulanlalu=DB::table('transaksi')
+            ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+            ->where('tgl_trans','>',$tglawalbulan_blnlalu)
+            ->where('tgl_trans','<=',$tglakhirbln_blnlalu)
+            ->get();
+            /*********************************/
+    
+            /***************Sales 1 tahun*******************/
+            $tglawaltahun = date('Y')."-01-01";
+            $tglakhirtahun = date('Y')."-12-31";
+        
+            $transsatutahun=DB::table('transaksi')
+            ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+            ->where('tgl_trans','>=',$tglawaltahun)
+            ->where('tgl_trans','<=',$tglakhirtahun)
+            ->get();
+    
+            /************************************************/
             $produks = Barang::paginate(8);
-            return view('getting', compact('produks'));
-        }
+            return view('getting',['produks'=>$produks,'transharian'=>$transharian,'transbulanini'=>$transbulanini,'transbulanlalu'=>$transbulanlalu,'transsatutahun'=>$transsatutahun]);
+            }
         else
         {
         return view('auth.login1');
@@ -99,7 +185,7 @@ class BarangController extends Controller
             'jumlah_brg',
 
             // not using `image` rule, as that will allow 
-            'photo' => 'required|max:10240'
+            'photo'
         ]);
         
         if (!empty($request->barang_id)){
@@ -115,7 +201,8 @@ class BarangController extends Controller
         // In the future, maybe we would do some processing like resize or crop it.
         if ($request->hasFile('photo')) {
             $file=$request->file('photo');
-            $file->move('./img',$file->getClientOriginalName());
+            Image::make($file)->resize(198, 132)->save('img/'.$file->getClientOriginalName());
+            // $file->move('./img',$file->getClientOriginalName());
             $data['photo'] = $file->getClientOriginalName();
         }
 
@@ -150,7 +237,6 @@ class BarangController extends Controller
                 'nama_brg' => 'required',
                 'harga_brg'=>'required',
                 'harga_jual'=>'required',
-                // 'harga_jual_reseller'=>'required',
                 'satuan',
                 'isi_persatuan',
                 'jumlah_brg'
@@ -160,9 +246,12 @@ class BarangController extends Controller
 
         //Ngecek Jika Perubahan Pada File Photo
         if ($request->hasFile('photo')) {
+
             $file=$request->file('photo');
-            $file->move('./img',$file->getClientOriginalName());
+            Image::make($file)->resize(198, 132)->save('img/'.$file->getClientOriginalName());
+            // $file->move('./img',$file->getClientOriginalName());
             $data['photo'] = $file->getClientOriginalName();
+
         }
         $barang->update($data);
 
@@ -407,16 +496,116 @@ class BarangController extends Controller
     public function detailproduk($id)
     {
         // return $id;
+        $transharian=DB::table('transaksi')
+        ->select('tgl_trans', DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans', date('Y-m-d'))
+        ->groupBy('tgl_trans')
+        ->get();
+        /***Mencari tgl awal dan akhir bulan **/
+        $days1month=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
+    
+        $d=date('Y-m-d');
+        /***tgl akhir bulan kemaren**/
+        $tglawal = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d))); 
+                
+        /***tgl akhir bulan ini**/
+        $akhirbulan=date('Y-m-d', strtotime('+'.$days1month.' days',strtotime($tglawal)));
+    
+        /****/
+        $transbulanini=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>',$tglawal)
+        ->where('tgl_trans','<=',$akhirbulan)
+        ->get();
+
+        /***MENCARI TGL AWAL BULAN DAN AKHIR BULAN DARI BULAN LALU***/
+        /***tgl akhir bulan lalu*/
+        $tglakhirbln_blnlalu = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d)));
+
+        $days1monthbulanlalu=cal_days_in_month(CAL_GREGORIAN,date('m',strtotime($tglakhirbln_blnlalu)),date('Y',strtotime($tglakhirbln_blnlalu)));
+
+        $tglawalbulan_blnlalu=date('Y-m-d', strtotime('-'.$days1monthbulanlalu.' days',strtotime($tglakhirbln_blnlalu)));
+
+        $transbulanlalu=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>',$tglawalbulan_blnlalu)
+        ->where('tgl_trans','<=',$tglakhirbln_blnlalu)
+        ->get();
+        /*********************************/
+
+        /***************Sales 1 tahun*******************/
+        $tglawaltahun = date('Y')."-01-01";
+        $tglakhirtahun = date('Y')."-12-31";
+    
+        $transsatutahun=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>=',$tglawaltahun)
+        ->where('tgl_trans','<=',$tglakhirtahun)
+        ->get();
+
+        /************************************************/
         $produk=Barang::findOrFail($id);
-        return view('produkdetail',compact('produk'));
+        return view('produkdetail',['produk'=>$produk,'transharian'=>$transharian,'transbulanini'=>$transbulanini,'transbulanlalu'=>$transbulanlalu,'transsatutahun'=>$transsatutahun]);
     }
     public function keranjangindex()
     {
+        /*********/
+                $transharian=DB::table('transaksi')
+        ->select('tgl_trans', DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans', date('Y-m-d'))
+        ->groupBy('tgl_trans')
+        ->get();
+        /***Mencari tgl awal dan akhir bulan **/
+        $days1month=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
+    
+        $d=date('Y-m-d');
+        /***tgl akhir bulan kemaren**/
+        $tglawal = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d))); 
+                
+        /***tgl akhir bulan ini**/
+        $akhirbulan=date('Y-m-d', strtotime('+'.$days1month.' days',strtotime($tglawal)));
+    
+        /****/
+        $transbulanini=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>',$tglawal)
+        ->where('tgl_trans','<=',$akhirbulan)
+        ->get();
+
+        /***MENCARI TGL AWAL BULAN DAN AKHIR BULAN DARI BULAN LALU***/
+        /***tgl akhir bulan lalu*/
+        $tglakhirbln_blnlalu = date('Y-m-d', strtotime('-'.date('d').' days',strtotime($d)));
+
+        $days1monthbulanlalu=cal_days_in_month(CAL_GREGORIAN,date('m',strtotime($tglakhirbln_blnlalu)),date('Y',strtotime($tglakhirbln_blnlalu)));
+
+        $tglawalbulan_blnlalu=date('Y-m-d', strtotime('-'.$days1monthbulanlalu.' days',strtotime($tglakhirbln_blnlalu)));
+
+        $transbulanlalu=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>',$tglawalbulan_blnlalu)
+        ->where('tgl_trans','<=',$tglakhirbln_blnlalu)
+        ->get();
+        /*********************************/
+
+        /***************Sales 1 tahun*******************/
+        $tglawaltahun = date('Y')."-01-01";
+        $tglakhirtahun = date('Y')."-12-31";
+    
+        $transsatutahun=DB::table('transaksi')
+        ->select(DB::raw('SUM(jumlah_transaksi) as total_sales'))
+        ->where('tgl_trans','>=',$tglawaltahun)
+        ->where('tgl_trans','<=',$tglakhirtahun)
+        ->get();
+
+        /************************************************/
+
         $keranjangs = DB::table('keranjangs')
         ->join('barang','keranjangs.barang_id','=','barang.barang_id')
         ->select('keranjangs.id','keranjangs.barang_id','barang.nama_brg as nama_brg','barang.photo','keranjangs.qty','barang.harga_jual')
         ->get();
-        return view('keranjang',compact('keranjangs'));
+        
+        return view('keranjang',['keranjangs'=>$keranjangs,'transharian'=>$transharian,'transbulanini'=>$transbulanini,'transbulanlalu'=>$transbulanlalu,'transsatutahun'=>$transsatutahun]);
+
 
     }
     public function keranjangsimpan(Request $request)
@@ -586,92 +775,14 @@ class BarangController extends Controller
             ->where('pembelis.nota',$request->nota)
             ->get();
             /**********Hapus data Suratjalan */
-            DB::table('suratjalans')->delete();
-    
-            for($i=0;$i<count($faktur);$i++)
-            {
-                $suratjln=new Suratjalan;
-    
-                $suratjln->barang_id=$faktur[$i]->barang_id;
-                $suratjln->nama_brg=$faktur[$i]->nama_brg;
-                $suratjln->nama_brg=$faktur[$i]->nama_brg;
-                $suratjln->qty=$faktur[$i]->jumlah_item_trans;
-                $suratjln->isi_persatuan=$faktur[$i]->isi_persatuan;
-                $suratjln->nota=$faktur[$i]->nota;
-                $suratjln->save();
-            }
-            //Buat Isi data barang yang kosong
-            $barangnull=DB::table('barang')
-            ->leftjoin('transaksi','barang.barang_id','=','transaksi.barang_id')
-            ->select('barang.barang_id', 'barang.nama_brg')
-            ->whereNull('transaksi.barang_id')
-            ->get();
-            for($i=0;$i<count($barangnull);$i++)
-            {
-                $suratjln=new Suratjalan;
-                $suratjln->barang_id=$barangnull[$i]->barang_id;
-                $suratjln->nama_brg=$barangnull[$i]->nama_brg;
-                $suratjln->save();
-            }
-            $suratjalan=Suratjalan::all();
-            
-            // $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
-            // return $pdf->stream('fakturrpt.pdf');
-            $pdf = App::make('snappy.pdf.wrapper');
-            $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
-            return $pdf->inline();
-    
-        }
-
-    }
-    public function lihatjatuhtempo()
-    {
-        /****Buat lihat data JT Byr ******/
-        return view('formcarijatuhtempo');
-    }
-
-    public function carijatuhtempo(Request $request)
-    {
-        // dd($request);
-        $cari = DB::table('pembelis')
-        ->join('transaksi','pembelis.nota','=','transaksi.nota')
-        ->select(DB::raw('SUM(transaksi.jumlah_item_trans) as jumlah_item_trans'),DB::raw('SUM(transaksi.jumlah_transaksi) as jumlah_transaksi'),'pembelis.nota','pembelis.nama','pembelis.alamat')
-        ->where('pembelis.tgl_jt_bayar','>=',$request->tgl_trans1)
-        ->where('pembelis.tgl_jt_bayar','<=',$request->tgl_trans2)
-        ->groupBy('pembelis.nota','pembelis.nama','pembelis.alamat')
-        ->get();
-        $lama=$request->only('tgl_trans1','tgl_trans2');
-        return view('formcarijatuhtempo',['cari'=>$cari,'lama'=>$lama]);
-        // return dd($lama);
-    }
-
-    public function formlihatsalesreport()
-    {
-        $transaksi=Transaksi::all();
-        return view('formsalesreport',compact('transaksi'));
-    }
-    public function carisalesreport()
-    {
-        $transaksi=Transaksi::all();
-        return view('formsalesreport',compact('transaksi'));
-    }
-    public function tesreport()
-    {
-        $faktur = DB::table('pembelis')
-        ->join('transaksi','pembelis.nota','=','transaksi.nota')
-        ->join('barang','transaksi.barang_id','=','barang.barang_id')
-        ->join('satuan','barang.satuan','=','satuan.id')
-        ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.jumlah_transaksi','transaksi.jumlah_item_trans','transaksi.tgl_trans','transaksi.discount','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan','barang.harga_jual','barang.isi_persatuan')
-        ->where('pembelis.nota','MJFF/0002-050720')
-        ->get();
-
         DB::table('suratjalans')->delete();
+        DB::table('fakturjuals')->delete();
+
         for($i=0;$i<count($faktur);$i++)
         {
             $suratjln=new Suratjalan;
 
             $suratjln->barang_id=$faktur[$i]->barang_id;
-            $suratjln->nama_brg=$faktur[$i]->nama_brg;
             $suratjln->nama_brg=$faktur[$i]->nama_brg;
             $suratjln->qty=$faktur[$i]->jumlah_item_trans;
             $suratjln->isi_persatuan=$faktur[$i]->isi_persatuan;
@@ -692,10 +803,164 @@ class BarangController extends Controller
             $suratjln->save();
         }
         $suratjalan=Suratjalan::all();
+        /*******Buat FAKTUR JUAL****/
+        for($i=0;$i<count($faktur);$i++)
+        {
+            $fakturjual=new Fakturjual;
+            $fakturjual->barang_id=$faktur[$i]->barang_id;
 
-        $pdf = App::make('snappy.pdf.wrapper');
-        $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
-        return $pdf->inline();
+            $fakturjual->nama_brg=$faktur[$i]->nama_brg;
+            $fakturjual->qty=$faktur[$i]->jumlah_item_trans;
+            $fakturjual->harga_jual=$faktur[$i]->harga_jual;
+            $fakturjual->jumlah_transaksi=$faktur[$i]->jumlah_transaksi;
+            $fakturjual->discount=$faktur[$i]->discount;
+            $fakturjual->nota=$faktur[$i]->nota;
+            $fakturjual->nama=$faktur[$i]->nama;
+            $fakturjual->alamat=$faktur[$i]->alamat;
+            $fakturjual->tgl_jt_bayar=$faktur[$i]->tgl_jt_bayar;
+            $fakturjual->save();
+        }
+        //Buat Isi data barang yang kosong
+        $barangnull=DB::table('barang')
+        ->leftjoin('fakturjuals','barang.barang_id','=','fakturjuals.barang_id')
+        ->select('barang.barang_id', 'barang.nama_brg')
+        ->whereNull('fakturjuals.barang_id')
+        ->get();
+        for($i=0;$i<count($barangnull);$i++)
+        {
+            $fakturjual=new Fakturjual;
+            $fakturjual->barang_id=$barangnull[$i]->barang_id;
+            $fakturjual->nama_brg=$barangnull[$i]->nama_brg;
+            $fakturjual->save();
+        }
+        $faktur=Fakturjual::all();
+
+        /***************************/
+        return view('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
+
+            // $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur]);
+            // return $pdf->stream('fakturrpt.pdf');
+            // $pdf = App::make('snappy.pdf.wrapper');
+            // $pdf = PDF::loadView('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
+            // return $pdf->inline();
+    
+        }
+
+    }
+    public function lihatjatuhtempo()
+    {
+        /****Buat lihat data JT Byr ******/
+        return view('formcarijatuhtempo');
+    }
+
+    public function carijatuhtempo(Request $request)
+    {
+        // dd($request);
+        $cari = DB::table('pembelis')
+        ->join('transaksi','pembelis.nota','=','transaksi.nota')
+        ->select(DB::raw('SUM(transaksi.jumlah_item_trans) as jumlah_item_trans'),DB::raw('SUM(transaksi.jumlah_transaksi) as jumlah_transaksi'),'pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar')
+        ->where('pembelis.tgl_jt_bayar','>=',$request->tgl_trans1)
+        ->where('pembelis.tgl_jt_bayar','<=',$request->tgl_trans2)
+        ->groupBy('pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar')
+        ->get();
+        $lama=$request->only('tgl_trans1','tgl_trans2');
+        return view('pdf.jatuhtempobayar',['cari'=>$cari,'lama'=>$lama]);
+
+        // $pdf = App::make('snappy.pdf.wrapper');
+        // $pdf = PDF::loadView('pdf.jatuhtempobayar',['cari'=>$cari,'lama'=>$lama]);
+        // return $pdf->inline();
+
+        // return view('formcarijatuhtempo',['cari'=>$cari,'lama'=>$lama]);
+        // return dd($lama);
+    }
+
+
+    public function formlihatsalesreport()
+    {
+        $transaksi=DB::table('barang')
+        ->join('transaksi','barang.barang_id','=','transaksi.barang_id')
+        ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.jumlah_transaksi','transaksi.jumlah_item_trans','transaksi.tgl_trans','transaksi.discount','barang.harga_brg','barang.harga_jual','transaksi.discount')
+        ->get();
+        return view('formsalesreport',compact('transaksi'));
+    }
+    public function carisalesreport(Request $request)
+    {
+        dd($request);
+        // $transaksi=Transaksi::all();
+        // return view('formsalesreport',compact('transaksi'));
+    }
+    public function tesreport()
+    {
+        $faktur = DB::table('pembelis')
+        ->join('transaksi','pembelis.nota','=','transaksi.nota')
+        ->join('barang','transaksi.barang_id','=','barang.barang_id')
+        ->join('satuan','barang.satuan','=','satuan.id')
+        ->select('transaksi.barang_id','transaksi.nama_brg','transaksi.jumlah_transaksi','transaksi.jumlah_item_trans','transaksi.tgl_trans','transaksi.discount','pembelis.nota','pembelis.nama','pembelis.alamat','pembelis.tgl_jt_bayar','satuan.nama_satuan','barang.harga_jual','barang.isi_persatuan')
+        ->where('pembelis.nota','MJFF/0002-070720')
+        ->get();
+
+        DB::table('suratjalans')->delete();
+        DB::table('fakturjuals')->delete();
+
+        for($i=0;$i<count($faktur);$i++)
+        {
+            $suratjln=new Suratjalan;
+
+            $suratjln->barang_id=$faktur[$i]->barang_id;
+            $suratjln->nama_brg=$faktur[$i]->nama_brg;
+            $suratjln->qty=$faktur[$i]->jumlah_item_trans;
+            $suratjln->isi_persatuan=$faktur[$i]->isi_persatuan;
+            $suratjln->nota=$faktur[$i]->nota;
+            $suratjln->save();
+        }
+        //Buat Isi data barang yang kosong
+        $barangnull=DB::table('barang')
+        ->leftjoin('transaksi','barang.barang_id','=','transaksi.barang_id')
+        ->select('barang.barang_id', 'barang.nama_brg')
+        ->whereNull('transaksi.barang_id')
+        ->get();
+        for($i=0;$i<count($barangnull);$i++)
+        {
+            $suratjln=new Suratjalan;
+            $suratjln->barang_id=$barangnull[$i]->barang_id;
+            $suratjln->nama_brg=$barangnull[$i]->nama_brg;
+            $suratjln->save();
+        }
+        $suratjalan=Suratjalan::all();
+        /*******Buat FAKTUR JUAL****/
+        for($i=0;$i<count($faktur);$i++)
+        {
+            $fakturjual=new Fakturjual;
+            $fakturjual->barang_id=$faktur[$i]->barang_id;
+
+            $fakturjual->nama_brg=$faktur[$i]->nama_brg;
+            $fakturjual->qty=$faktur[$i]->jumlah_item_trans;
+            $fakturjual->harga_jual=$faktur[$i]->harga_jual;
+            $fakturjual->jumlah_transaksi=$faktur[$i]->jumlah_transaksi;
+            $fakturjual->discount=$faktur[$i]->discount;
+            $fakturjual->nota=$faktur[$i]->nota;
+            $fakturjual->nama=$faktur[$i]->nama;
+            $fakturjual->alamat=$faktur[$i]->alamat;
+            $fakturjual->tgl_jt_bayar=$faktur[$i]->tgl_jt_bayar;
+            $fakturjual->save();
+        }
+        //Buat Isi data barang yang kosong
+        $barangnull=DB::table('barang')
+        ->leftjoin('fakturjuals','barang.barang_id','=','fakturjuals.barang_id')
+        ->select('barang.barang_id', 'barang.nama_brg')
+        ->whereNull('fakturjuals.barang_id')
+        ->get();
+        for($i=0;$i<count($barangnull);$i++)
+        {
+            $fakturjual=new Fakturjual;
+            $fakturjual->barang_id=$barangnull[$i]->barang_id;
+            $fakturjual->nama_brg=$barangnull[$i]->nama_brg;
+            $fakturjual->save();
+        }
+        $faktur=Fakturjual::all();
+
+        /***************************/
+        return view('pdf.fakturrpt',['faktur'=>$faktur,'suratjalan'=>$suratjalan]);
         // return $pdf->download('fakturrpt.pdf');
 
         // return $pdf->inline('fakturrpt.pdf');

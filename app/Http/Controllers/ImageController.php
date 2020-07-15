@@ -1,16 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Exports\TransaksiExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\DB;
-
+use Image;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
-use App\Models\Transaksi;
 
-
-class ExportController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,6 +14,16 @@ class ExportController extends Controller
     public function index()
     {
         //
+//         $img = Image::make('foo.jpg');
+
+// // now you are able to resize the instance
+// $img->resize(320, 240);
+
+// // and insert a watermark for example
+// $img->insert('watermark.png');
+
+// // finally we save the image as a new file
+// $img->save('bar.jpg');
     }
 
     /**
@@ -87,14 +91,4 @@ class ExportController extends Controller
     {
         //
     }
-    public function export(Request $request) 
-    {
-        // dd($request);
-        return (new TransaksiExport)->forDate($request->tgl1,$request->tgl2)->download('sales.xlsx');
-
-        // $tes=(new TransaksiExport)->forDate($request->tgl1,$request->tgl2);
-        // return dd($tes);
-        // return Excel::download((new TransaksiExport)->view($request->tgl1,$request->tgl2), 'transaksi.xlsx');
-    }
-
 }

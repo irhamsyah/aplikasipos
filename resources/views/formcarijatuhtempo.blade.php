@@ -49,8 +49,10 @@
     </div>
     <div class="row" style="margin-left: 2px">
         {{ csrf_field() }}
-            {!! Form::submit('Cari',['class'=>'tbl-simpan']) !!} 
+            {!! Form::submit('Cari',['class'=>'tbl-simpan']) !!}
             <input type="reset" class="tbl-simpan" value="Reset" >
+            {{-- <a href="{{route('cetakjtpdf')}}" class="klastomboledit">Cetak PDF</a> --}}
+
     </div>
 
     {!!Form::close()!!}
@@ -60,7 +62,7 @@
             <table id="customers">
                 <tr>
                     <th>Nota Pembelian</th>
-                    <th>Nama Pemebeli</th>
+                    <th>Nama Pembeli</th>
                     <th>Alamat</th>
                     <th>Jatuh Tempo</th>
                     <th>Total Item</th>

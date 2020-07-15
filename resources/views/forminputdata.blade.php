@@ -1,5 +1,4 @@
 @extends('layouts/main')
-@include('partials/flash')
 @section('content')
 @if(Auth::check())
 <!-- !PAGE CONTENT! -->
@@ -76,30 +75,12 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-25">
-                {!!Form::label('hargareseller','Harga Reseller',['class'=>'awesome'])!!}
-            </div>
-            <div class="col-75">
-                <div class="inputWithIcon">
-                    {!!Form::text('harga_jual_reseller',old('harga_jual_reseller'),
-                    array('required',
-                    'id'=>'hargareseller',
-                    'placeholder'=>'Harga Reseller'
-                    ))!!}
-                    <i class="fa fa-inr fa-lg fa-fw" aria-hidden="true"></i>
-                </div>
-            </div>
-        </div> --}}
         <div class="row">
             <div class="col-25">
                 {!!Form::label('kodesatuan','Satuan Barang',['class'=>'awesome'])!!}
             </div>
             <div class="col-75">
                 <div class="inputWithIcon">
-                {{--yg dibawah ini merupakan teknik menampilkan record dari DB pada Selectbox
-                dengan teknik laravel 5.3 keatas --}}
-                {{-- [''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all() --}}
                     {!! Form::select('satuan',[''=>'']+App\Models\Satuan::pluck('nama_satuan','id')->all(),'MONCROT') !!}
                     <i aria-hidden="true"></i>
                 </div>

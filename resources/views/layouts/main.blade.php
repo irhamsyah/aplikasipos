@@ -73,23 +73,16 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             if(Auth::check()){
         ?>
       <span>Welcome, <strong>{{Auth::user()->name}}</strong></span><br>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-                         document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-      </div>
 
         <?php
             }
         ?>
         <a href="{{route('index')}}" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a>
         <a href="{{ route('logout') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
-        Logot</i></a>
+        Logout</i></a>
+        <a href="{{ route('reset.password') }}" class="w3-bar-item w3-button"><i class="fa fa-user"> 
+          Reset Password</i></a>
+  
     </div>
   </div>
 
@@ -99,12 +92,24 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </div>
   <div class="w3-bar-block">
     <!-- {{-- <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a> --}} -->
+  @if(Auth::user()->role=='admin')
+
   <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
     <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
   <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
     <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
   <a href="{{route('lihatjatuhtempo')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Laporan Jatuh Tempo</a>
   <a href="{{route('lihatsalesreport')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  Laporan Sales</a>
+  <a href="{{route('register')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  Register User</a>
+  @else
+  <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
+    <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
+  <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
+  <a href="{{route('lihatjatuhtempo')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Laporan Jatuh Tempo</a>
+  <a href="{{route('lihatsalesreport')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  Laporan Sales</a>
+
+  @endif
+
   <!-- {{-- <a href="{{route('inputransaksireseller')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Input Transaksi Reseller</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br> --}} -->
