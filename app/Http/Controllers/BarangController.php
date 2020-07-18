@@ -208,7 +208,7 @@ class BarangController extends Controller
 
         $barang = Barang::create($data);
 
-            session()->flash('message', 'Data' . $barang->nama_brg .' Saved');
+            session()->flash('message', 'Data ' . $barang->nama_brg .' Saved');
             session()->flash('type', 'success');
             return redirect()->route('inputdatabarang');
         
@@ -731,6 +731,8 @@ class BarangController extends Controller
 
                 /***PROSES CARI BARANG UNTUK PROSES UPDATE DATA BARANG DAN INSERT TABEL TRANSAKSI***/
                 $jmlbrg=Barang::find($request->barang_id[$index]);
+                //check stok barangbarang 
+                if ($jmlbrg->jumlah_brg>$request->qty[$index]){
                 $jumlah_brg=0;$nama_brg="";$harga_jual=0;
                     $jumlah_brg=$jmlbrg->jumlah_brg;
                     $nama_brg=$jmlbrg->nama_brg;
@@ -753,6 +755,17 @@ class BarangController extends Controller
                 $transaksi->save();
 
                 $index++;
+                } else
+                {
+                    // session()->flash('message', 'Data ' . $barang->nama_brg .' Saved');
+                    // session()->flash('type', 'success');
+                    // return redirect()->route('inputdatabarang');
+        
+                    session()->flash('message', 'Stok Barang ' . $request->barang_id[$index] .' Sudah Habis');
+                    session()->flash('type', 'danger');
+                    return redirect()->route('keranjang.checkout');
+        
+                }
             }
             /*Penjumlahan tanggal untuk mendapatkan TG JT setelah di jumlah jangka waktu*/
             $tgltrans=strtotime($request->input('tgl_trans'));
