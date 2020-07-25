@@ -90,16 +90,7 @@ class ExportController extends Controller
     public function export(Request $request) 
     {
         // dd($request);
-<<<<<<< HEAD
-        return (new TransaksiExport)->forDate($request->tgl1,$request->tgl2)->download('sales.xlsx');
-=======
         return (new TransaksiExport)->forDate($request->tgl1,$request->tgl2)->download('transaksi.xlsx');
-
->>>>>>> 1800e56eac47cfbd93d94f4e54b60b71ca056440
-
-        // $tes=(new TransaksiExport)->forDate($request->tgl1,$request->tgl2);
-        // return dd($tes);
-        // return Excel::download((new TransaksiExport)->view($request->tgl1,$request->tgl2), 'transaksi.xlsx');
     }
 
 }

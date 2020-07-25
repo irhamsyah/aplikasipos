@@ -1,5 +1,10 @@
 @extends('layouts.app')
-
+<style>
+    #role{
+        height: 20px;
+        width: 20px;
+    }
+</style>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -60,7 +65,18 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="jarolebatan" class="col-md-4 col-form-label text-md-right">{{ __('Kasir') }}</label>
 
+                            <div class="col-md-6">
+                                <input id="role" type="checkbox" class="form-control"  name="role" value="kasir">
+                            </div>
+                            <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Admin') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="role" type="checkbox" class="form-control"  name="role" value="admin">
+                            </div>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

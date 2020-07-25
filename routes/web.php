@@ -17,7 +17,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('auth.login');
 // });
 
-Auth::routes();
+// Auth::routes(['verify'=> true]);
+Auth::routes(['register'=>false]);
+
+Route::get('/home', 'HomeController@index')->name('home');
 
 //Route unutk menghindari langsung ke DASHBOARD
 Route::get('login', function(){
@@ -25,15 +28,21 @@ Route::get('login', function(){
 })->name('login');
 //-------Batas-----------
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('register',
+[
+    'middleware'=>'auth',
+    'as'=>'register',
+    'uses'=>'DaftarController@TampilkanFormRegistrasi'
+]);
 
-// Route::get('register',
-// [
-//     'middleware'=>'web',
-//     'as'=>'register',
-//     'uses'=>'Auth\RegisterController@showRegistrationForm'
+Route::post('register',
+[
+    'middleware'=>'auth',
+    'as'=>'register',
+    'uses'=>'Auth\RegisterController@register'
 
-// ]);
+]);
+
 
 Route::get('adminlogin',
 [

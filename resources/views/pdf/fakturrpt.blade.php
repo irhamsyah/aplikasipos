@@ -112,8 +112,7 @@ th, td {
         <span>Discount </span> <span style="margin-left:50px">:</span><span style="margin-left: 12px">{{$discount}}</span><span>%</span>
 
         </div>
-        <!-- <div><span>Pelanggan  </span> <span style="margin-left: 5px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{$nama}}</span> </div> -->
-        <!-- <div> <span>Alamat </span> <span style="margin-left:58px">:</span><span style="margin-left: 12px">{{$alamat}}</span> </div> -->
+        {{$nama}}{{$alamat}}
         @if(!is_null($faktur[0]->tgl_jt_bayar))
         <div><span>Tanggal JT</span> <span style="margin-left: 38px; margin-right: 5px">:</span> <span style="margin-left: 5px">{{date('d-m-Y', strtotime($faktur[0]->tgl_jt_bayar))}}</span> </div>
         @endif

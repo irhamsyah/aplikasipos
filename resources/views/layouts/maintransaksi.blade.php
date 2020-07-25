@@ -108,15 +108,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   
     @endif
     </div>
-=======
-    <a href="{{route('inputdatabarang')}}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Entry Barang</a>
-    <a href="{{route('editdatabarang')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Edit Barang</a>
-  <a href="{{route('inputransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Input Transaksi</a>
-    <a href="{{route('listtransaksi')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  List Transaksi</a>
-  <a href="{{route('lihatjatuhtempo')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Laporan Jatuh Tempo</a>
-  <a href="{{route('lihatsalesreport')}}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  Laporan Sales</a>
-  </div>
->>>>>>> 1800e56eac47cfbd93d94f4e54b60b71ca056440
 </nav>
 {{-- Batas Side Bar Menu --}}
 

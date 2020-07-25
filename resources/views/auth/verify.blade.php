@@ -11,6 +11,7 @@
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
                             {{ __('A fresh verification link has been sent to your email address.') }}
+                        <p>{{__('This is custome text')}}</p>
                         </div>
                     @endif
 

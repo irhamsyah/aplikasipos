@@ -757,14 +757,9 @@ class BarangController extends Controller
                 $index++;
                 } else
                 {
-                    // session()->flash('message', 'Data ' . $barang->nama_brg .' Saved');
-                    // session()->flash('type', 'success');
-                    // return redirect()->route('inputdatabarang');
-        
                     session()->flash('message', 'Stok Barang ' . $request->barang_id[$index] .' Sudah Habis');
                     session()->flash('type', 'danger');
                     return redirect()->route('keranjang.checkout');
-        
                 }
             }
             /*Penjumlahan tanggal untuk mendapatkan TG JT setelah di jumlah jangka waktu*/
